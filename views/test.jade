@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    title Twilio Video - Video Quickstart
+    |   
+    link(rel="stylesheet", href='/stylesheets/test_video.css')
+  body
+    #remote-media
+    |   
+    #controls
+      #preview
+        p.instructions Hello Gorgeous
+        |       
+        #local-media
+        |       
+        button#button-preview Preview My Camera
+      |     
+      #room-controls
+        p.instructions Room Name:
+        |       
+        input#room-name(type="text", placeholder="Enter a room name")
+        |       
+        button#button-join Join Room
+        |       
+        button#button-leave Leave Room
+      |     
+      #log
+    |   
+    script(src="//media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js")
+    |   
+    script(src="//media.twiliocdn.com/sdk/js/video/releases/1.0.0-beta5/twilio-video.js")
+    |   
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    |   
+    script(src="/javascripts/client.js")
