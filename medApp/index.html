@@ -6,44 +6,40 @@
 
 	 <!-- Required meta tags always come first -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
       
     <!-- Awesome Font Icons -->
     <script src="https://use.fontawesome.com/5806412fce.js"></script>
 
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
-		<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-		<!-- Latest compiled JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<style>
 
 
 	#chat {
-		height: 200px;
-		width: 800px;
-		overflow-y: auto;
-	}
+		height: 300px;
+		overflow-y: auto; 
+	} 
 
 	#chatWrap {
-		float:left;
 		border: 1px #000 solid;
 	}
 
 	#contentWrap {
-		position: fixed;
-		bottom: 50%;
-		left: 50%;
-		margin-left: -400px;
-		margin-top: -100px;
-		display: none;
-		
+		display: none; 
+	} 
+
+	#nickWrap {
+
+	
 	}
 
 	#registerWrap {
@@ -67,14 +63,35 @@
 		color: red;
 	}
 
+	
+
+	html, .container-table {
+    	max-width: 100%
+    	height: 100%;
+    	overflow-x: hidden;
+	}
+	
+	.vertical-center {
+	  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+	  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+	  display: flex;
+	  align-items: center;
+	}
+
+	.input-group .form-control{
+		margin-left: 0;
+	}
+
+
 	</style>
 </head>
-<body data-spy="scroll" data-target="#navbar" data-offset="200">
+<body>
 
 
 	<!--  LOGIN UI  -->
-	<div id="nickWrap">
-		<form action="#">
+	<div id="nickWrap" class="container container-table">
+		<form>
 		  <div class="container">
 			<div class="imgcontainer">
 				<img src="/images/Logo.PNG" alt="Telemed" class="telemed">
@@ -100,6 +117,7 @@
 		  </div>
 		</form>
 	</div>
+		
 
 
 
@@ -161,9 +179,9 @@
 		  <div class="container">
 
 			<button class="menu_button" id="chat_btn">Chat</button>
-			<button class="menu_button" id="button_2">Button 2</button>
-			<button class="menu_button" id="button_3">Button 3</button>
-			<button class="menu_button" id="button_4">Button 4</button>
+			<button class="menu_button" id="button_2">FAQ</button>
+			<button class="menu_button" id="button_3">Record Vitals</button>
+			<button class="menu_button" id="button_4">History</button>
 		  </div>
 		</form>
 	</div>
@@ -171,21 +189,40 @@
 
 
 	<!--  CHAT UI  -->
-	<div id="contentWrap">
-		<div id="chatWrap">
-			<div id="chat"></div>
-				<input size="50" id="message"></input>
-				<button id="sendMsg">Send</button>
-			<button type="button" id="clear">Clear Chat History</button>
-		</div>
-		<div>
-			<button id="chatBack_btn" style="margin-top: 10px;" type="button" class="btn btn-default">
-				<span class="glyphicon glyphicon-arrow-left"></span>  Back
-			</button>
+	<div id="contentWrap" class="container vertical-center">
+		<header> 
+			<div id="backsplash">
+				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
+			</div>
+			<h1> Chat </h1>
+		</header>
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				<div class="container" >	
+					<div id="chatWrap">
+						<div id="chat"></div>
+						<div class="input-group" style="width: 100%" aligh-items="center">
+							<input id="message" type="text" class="form-control" placeholder="message" aria-describedby="basic-addon1">
+						</div>
+
+						<div class="btn-group" role="group" style="width: 100%;">
+							 <button class="btn btn-default" type="button" id="sendMsg" style="width: 33.3%;">
+								<span class="glyphicon glyphicon-send"></span>  Send
+							</button>
+							<button class="btn btn-default" type="button" id="clear" style="width: 33.3%">
+								<span class="glyphicon glyphicon-remove-circle"></span>  Clear Chat History
+							</button>
+							<button id="chatBack_btn" type="button" class="btn btn-default" style="width: 33.3%;">
+								<span class="glyphicon glyphicon-arrow-left"></span>  Back
+							</button>
+						</div>
+					</div>
+				</div>
+				<div id="users"></div>
+			</div>
 		</div>
 	</div>
-	<div id="users"></div>
-
+	
 
 	<!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -196,5 +233,6 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/javascript.js"></script>
+
 </body>
 </html>

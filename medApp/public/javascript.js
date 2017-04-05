@@ -19,6 +19,7 @@ jQuery(function($){
 	var $chat_btn = $('chat_btn');
 	var $myName = '';
 
+
 	// Handle the clear chat history button
 	$clear.click(function(e){
 		e.preventDefault();

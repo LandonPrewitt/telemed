@@ -1,8 +1,8 @@
 /* Bordered form */
 form {
     /*border: 3px solid #f1f1f1;*/
-	width: 50%;
-	margin: 0% 0px 0px 25%;
+	/*width: 50%;
+	margin: 0% 0px 0px 25%;*/
 	/*padding: 0px 100px;*/
 }
 
@@ -24,7 +24,7 @@ button {
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
+    /*width: 100%;*/
 }
 
 /* Add a hover effect for buttons */
@@ -39,10 +39,10 @@ button:hover {
     background-color: #f44336;
 }
 
-/* Add padding to containers */
+ /*Add padding to containers */
 .container {
     padding: 16px;
-}
+} 
 
 /* The "Forgot password" text */
 span.psw {

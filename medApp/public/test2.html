@@ -4,6 +4,8 @@
 
 		<title> Testing Bootstrap </title>
 
+		<link rel= "stylesheet" type= "text/css" href= "/basic_layout_login.css">
+
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -20,7 +22,32 @@
 	<body>
 		
 
-		<button type="button" class="btn btn-primary">Primary</button>
+		<form action="#">
+				  <div class="container">
+					<div class="imgcontainer">
+						<img src="/images/Logo.PNG" alt="Telemed" class="telemed">
+					</div>
+					
+					<p id="errorMsg" class="error"></p>
+
+					<label><b>Username</b></label>
+					<input id="nickname" type="text" placeholder="Enter Username" name="uname" required>
+
+					<label><b>Password</b></label>
+					<input id="password" type="password" placeholder="Enter Password" name="psw" required>
+
+					<button style="margin: 5px" type="button" id="login_btn"> Login </button>
+					<button style="margin: 5px" type="button" id="register_btn"> Register </button>
+
+					<input type="checkbox" checked="checked"> Remember Me
+				  </div>
+
+				  <div class="container" style="background-color:#f1f1f1">
+					<button type="button" class="cancelbtn">Cancel</button>
+					<span class="psw">Forgot <a href="#">Password?</a></span>
+				  </div>
+				</form>
+			</div>
 
 
 	</body>
