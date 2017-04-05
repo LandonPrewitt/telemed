@@ -1,0 +1,200 @@
+<html>
+<head>
+	<title> Chat with socket.io</title>
+	<link rel= "stylesheet" type= "text/css" href= "/basic_layout_login.css">
+
+
+	 <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+    <!-- Awesome Font Icons -->
+    <script src="https://use.fontawesome.com/5806412fce.js"></script>
+
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<style>
+
+
+	#chat {
+		height: 200px;
+		width: 800px;
+		overflow-y: auto;
+	}
+
+	#chatWrap {
+		float:left;
+		border: 1px #000 solid;
+	}
+
+	#contentWrap {
+		position: fixed;
+		bottom: 50%;
+		left: 50%;
+		margin-left: -400px;
+		margin-top: -100px;
+		display: none;
+		
+	}
+
+	#registerWrap {
+		display: none;
+	}
+
+	#mainmenuWrap {
+		display: none;
+	}
+
+	.whisper {
+		color: grey;
+		font-style: italic;
+	}
+
+	.msg {
+
+	}
+
+	.error {
+		color: red;
+	}
+
+	</style>
+</head>
+<body data-spy="scroll" data-target="#navbar" data-offset="200">
+
+
+	<!--  LOGIN UI  -->
+	<div id="nickWrap">
+		<form action="#">
+		  <div class="container">
+			<div class="imgcontainer">
+				<img src="/images/Logo.PNG" alt="Telemed" class="telemed">
+			</div>
+			
+			<p id="errorMsg" class="error"></p>
+
+			<label><b>Username</b></label>
+			<input id="nickname" type="text" placeholder="Enter Username" name="uname" required>
+
+			<label><b>Password</b></label>
+			<input id="password" type="password" placeholder="Enter Password" name="psw" required>
+
+			<button style="margin: 5px" type="button" id="login_btn"> Login </button>
+			<button style="margin: 5px" type="button" id="register_btn"> Register </button>
+
+			<input type="checkbox" checked="checked"> Remember Me
+		  </div>
+
+		  <div class="container" style="background-color:#f1f1f1">
+			<button type="button" class="cancelbtn">Cancel</button>
+			<span class="psw">Forgot <a href="#">Password?</a></span>
+		  </div>
+		</form>
+	</div>
+
+
+
+	<!--  REGISTRATION UI  -->
+	<div id="registerWrap">
+		<header> 
+			<div id="backsplash">
+				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
+			</div>
+			<h1> New User </h1>
+		</header>
+		
+		<form action="#">
+		  <div class="container">
+		  
+			<label><b>Username:</b></label>
+			<input id="nickname2" type="text" placeholder="Enter a Username" name="fname" required>
+
+			<div>
+			<label><b>Full Name:</b></label>
+			<input id="name" type="text" placeholder="Enter Full Name" name="lname" required>
+			</div>
+
+			<label><b>Email:</b></label>
+			<input id="email" type="text" placeholder="Enter Email" name="email" required>
+
+			<label><b>Phone:</b></label>
+			<input id="phone" type="text" placeholder="Enter Phone Number" name="phone" required>
+			
+			<label><b>Password:</b></label>
+			<input id="password2" type="password" placeholder="Enter Password" name="psw" required>
+
+			<label><b>Retype Password:</b></label>
+			<input type="password" placeholder="Enter Password" name="psw" required>
+			
+			</div>
+
+
+			<input id="doctorBox" type="checkbox"> Doctor
+
+			<button type="button" id="getStarted_btn"> Get Started </button>
+		
+		  </form>
+	</div>
+
+
+
+
+	<!--  MAIN MENU  -->
+	<div id="mainmenuWrap">
+		<header> 
+			<div id="backsplash">
+				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
+			</div>
+			<h1> Home </h1>
+		</header>
+		
+		<form action="#">
+		  <div class="container">
+
+			<button class="menu_button" id="chat_btn">Chat</button>
+			<button class="menu_button" id="button_2">Button 2</button>
+			<button class="menu_button" id="button_3">Button 3</button>
+			<button class="menu_button" id="button_4">Button 4</button>
+		  </div>
+		</form>
+	</div>
+
+
+
+	<!--  CHAT UI  -->
+	<div id="contentWrap">
+		<div id="chatWrap">
+			<div id="chat"></div>
+				<input size="50" id="message"></input>
+				<button id="sendMsg">Send</button>
+			<button type="button" id="clear">Clear Chat History</button>
+		</div>
+		<div>
+			<button id="chatBack_btn" style="margin-top: 10px;" type="button" class="btn btn-default">
+				<span class="glyphicon glyphicon-arrow-left"></span>  Back
+			</button>
+		</div>
+	</div>
+	<div id="users"></div>
+
+
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   
+    <!-- JQuery Latest , Socket.io, and custom js -->
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/javascript.js"></script>
+</body>
+</html>
