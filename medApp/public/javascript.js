@@ -20,13 +20,6 @@ jQuery(function($){
 	var $myName = '';
 
 
-	// Handle the clear chat history button
-	$clear.click(function(e){
-		e.preventDefault();
-		socket.emit('clear history');
-		$chat.html('');
-	});
-
 	// Hande the action for when a user defines their nickname and submits
 	$login.click(function(e){
 		e.preventDefault();
@@ -81,6 +74,8 @@ jQuery(function($){
 		$password.val('');
 	});
 
+	// ======================= jQuery for main menu buttons ===================================
+
 	// Handle when chat is opened
 	$('#chat_btn').click(function(e){
 		e.preventDefault();
@@ -109,12 +104,16 @@ jQuery(function($){
 		$('#recordWrap').show();
 	});
 
+	// ======================= jQuery for Chat Menu Buttons ===================================
 
 	// Hanle when chatBack_btn is clicked
-	$('#chatBack_btn').click(function(e){
+	$('.back_btn').click(function(e){
 		e.preventDefault();
 		$('#mainmenuWrap').show();
 		$('#contentWrap').hide();
+		$('#faqWrap').hide();
+		$('#historyWrap').hide();
+		$('#recordWrap').hide();
 	});
 
 	// Handle the function for when message is being sent
@@ -153,12 +152,21 @@ jQuery(function($){
 		$chat.append('<span class=\"whisper"><b>' + data.nick + ': </b>' + data.msg + "</span></br>");
 	});
 
+	// Handle when chat loads - getting old messages
 	socket.on('load old messages', function(docs){
 		for(var i=0; i<docs.length; i++){
 			displayMsg(docs[i]);
 		}
 	});
 
+	// Handle the clear chat history button
+	$clear.click(function(e){
+		e.preventDefault();
+		socket.emit('clear history');
+		$chat.html('');
+	});
+
+	// Quick function for displaying Messages
 	function displayMsg(data){
 		$chat.append('<span class=\"msg"><b>' + data.nick + ': </b>' + data.msg + "</span></br>");
 		$chat.scrollTop($chat.prop('scrollHeight'));
