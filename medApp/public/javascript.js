@@ -88,6 +88,28 @@ jQuery(function($){
 		$('#contentWrap').show();
 	});
 
+	// Handle when FAQ is opened
+	$('#faq_btn').click(function(e){
+		e.preventDefault();
+		$('#mainmenuWrap').hide();
+		$('#faqWrap').show();
+	});
+
+	// Handle when History is opened
+	$('#history_btn').click(function(e){
+		e.preventDefault();
+		$('#mainmenuWrap').hide();
+		$('#historyWrap').show();
+	});
+
+	// Handle when Record Vitals is opened
+	$('#record_btn').click(function(e){
+		e.preventDefault();
+		$('#mainmenuWrap').hide();
+		$('#recordWrap').show();
+	});
+
+
 	// Hanle when chatBack_btn is clicked
 	$('#chatBack_btn').click(function(e){
 		e.preventDefault();

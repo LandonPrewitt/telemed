@@ -38,8 +38,6 @@
 	} 
 
 	#nickWrap {
-
-	
 	}
 
 	#registerWrap {
@@ -47,6 +45,18 @@
 	}
 
 	#mainmenuWrap {
+		display: none;
+	}
+
+	#faqWrap {
+		display: none;
+	}
+
+	#historyWrap {
+		display: none;
+	}
+
+	#recordWrap {
 		display: none;
 	}
 
@@ -105,8 +115,8 @@
 			<label><b>Password</b></label>
 			<input id="password" type="password" placeholder="Enter Password" name="psw" required>
 
-			<button style="margin: 5px" type="button" id="login_btn"> Login </button>
-			<button style="margin: 5px" type="button" id="register_btn"> Register </button>
+			<button style="margin: 5px; width:100%;" type="button" id="login_btn"> Login </button>
+			<button style="margin: 5px; width:100%;" type="button" id="register_btn"> Register </button>
 
 			<input type="checkbox" checked="checked"> Remember Me
 		  </div>
@@ -177,14 +187,62 @@
 		
 		<form action="#">
 		  <div class="container">
-
 			<button class="menu_button" id="chat_btn">Chat</button>
-			<button class="menu_button" id="button_2">FAQ</button>
-			<button class="menu_button" id="button_3">Record Vitals</button>
-			<button class="menu_button" id="button_4">History</button>
+			<button class="menu_button" id="faq_btn">FAQ</button>
+			<button class="menu_button" id="record_btn">Record Vitals</button>
+			<button class="menu_button" id="history_btn">History</button>
 		  </div>
 		</form>
 	</div>
+
+
+
+
+
+
+
+	<!--  FAQ UI  -->
+	<div id="faqWrap">
+		<header> 
+			<div id="backsplash">
+				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
+			</div>
+			<h1> FAQ </h1>
+		</header>
+	</div>
+
+
+
+
+
+
+	<!--  Record Vitals UI  -->
+	<div id="recordWrap">
+		<header> 
+			<div id="backsplash">
+				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
+			</div>
+			<h1> Record Vitals </h1>
+		</header>
+	</div>
+
+
+
+
+
+
+
+	<!-- Medical History UI  -->
+	<div id="historyWrap">
+		<header> 
+			<div id="backsplash">
+				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
+			</div>
+			<h1> Medical History </h1>
+		</header>
+	</div>
+
+
 
 
 
