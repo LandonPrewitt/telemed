@@ -1,6 +1,6 @@
 # Telemed
 
-### Running The Ap
+### Running The App
 1. clone repository 
 2. run prompt > npm install 
 3. run server > nodemon add.js
