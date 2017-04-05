@@ -1,1 +1,4 @@
-./medApp/node_modules
+./medApp/node_modules,
+./testing/application/node_modules,
+/medApp/node_modules,
+/testing/application/node_modules
