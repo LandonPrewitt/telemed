@@ -4,7 +4,7 @@ from time import sleep
 class ArdSensor:
     # e for gathering ECG data, t for gathering temperature data
     def __init__(self, sensorid):
-        self.ser = serial.Serial('/dev/ttyACM0', 9600)
+        self.ser = serial.Serial('/dev/ttyACM1', 9600)
         if sensorid != "e" and sensorid != "t":
             raise ValueError("Not valid sensorid")
         self.sensorid = sensorid

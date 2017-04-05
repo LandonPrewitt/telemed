@@ -19,17 +19,25 @@ class BlueOxiSensor:
         # Format of value in string 81 ff 7f 00 , first byte is header, second, hr, oximeter, pi
         data = hexlify(str(value))
         if data[:2] == "81":
-            self.oxibuff.append(int(data[2:4], 16))
-            self.hrbuff.append(int(data[4:6], 16))
+            self.hrbuff.append(int(data[2:4], 16))
+            self.oxibuff.append(int(data[4:6], 16))
             self.pibuff.append(int(data[6:8], 16))
             
     def getMeasureOxi(self):
-        return self.oxibuff.pop()
+        if len(self.oxibuff) != 0:
+            return self.oxibuff.pop()
+        return int(0)
+    
     def getMeasureHR(self):
-        return self.hrbuff.pop()
+        if len(self.hrbuff) != 0:
+            return self.hrbuff.pop()
+        return int(0)
+    
     def getMeasurePI(self):
-        return self.pibuff.pop()
-
+        if len(self.pibuff) != 0:
+            return self.pibuff.pop()
+        return int(0)
+    
     def getMeasureOxiArr(self,n):
         arr = [self.oxibuff[i] for i in range(n)]
         return arr

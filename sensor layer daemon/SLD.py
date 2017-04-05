@@ -1,4 +1,4 @@
-import ardSensor, blueOxiSensor, pika
+import ardSensor, blueOxiSensor, pika, sys
 from time import sleep
 
 def main(argv):
@@ -12,7 +12,7 @@ def main(argv):
     oxiSensor = blueOxiSensor.BlueOxiSensor()
     
     # Connecting to rabbitmq message broker
-    connection = pika.BlockingConnection(pika.ConnectionParameters(argv[1]))
+    connection = pika.BlockingConnection(pika.URLParameters(argv[1]))
     channel = connection.channel()
     channel.queue_declare(queue="temp")
     channel.queue_declare(queue="ecg")
@@ -25,9 +25,9 @@ def main(argv):
         while(True):
             channel.basic_publish(exchange='', routing_key="temp", body=tempSensor.getMeasure())
             channel.basic_publish(exchange='', routing_key="ecg", body=ecgSensor.getMeasure())
-            channel.basic_publish(exchange='', routing_key="oxi", body=oxiSensor.getMeasureOxi())
-            channel.basic_publish(exchange='', routing_key="hr", body=oxiSensor.getMeasureHR())
-            channel.basic_publish(exchange='', routing_key="pi", body=oxiSensor.getMeasurePI())]
+            channel.basic_publish(exchange='', routing_key="oxi", body=str(oxiSensor.getMeasureOxi()))
+            channel.basic_publish(exchange='', routing_key="hr", body=str(oxiSensor.getMeasureHR()))
+            channel.basic_publish(exchange='', routing_key="pi", body=str(oxiSensor.getMeasurePI()))
             print("Five sensors decoded data sent")
             sleep(1)
             
