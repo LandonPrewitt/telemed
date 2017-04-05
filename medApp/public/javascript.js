@@ -41,7 +41,6 @@ jQuery(function($){
 	// Handle the action for registering a user *register_btn clicked*
 	$register.click(function(e){
 		e.preventDefault();
-		
 		$('#nickWrap').hide();
 		$('#registerWrap').show();
 

@@ -101,38 +101,42 @@
 
 	<!--  LOGIN UI  -->
 	<div id="nickWrap" class="container container-table">
-		<form>
-		  <div class="container">
-			<div class="imgcontainer">
-				<img src="/images/Logo.PNG" alt="Telemed" class="telemed">
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				<form>
+				  <div class="container">
+					<div class="imgcontainer">
+						<img src="/images/Logo.PNG" alt="Telemed" class="telemed">
+					</div>
+					
+					<p id="errorMsg" class="error"></p>
+
+					<label><b>Username</b></label>
+					<input id="nickname" type="text" placeholder="Enter Username" name="uname" required>
+
+					<label><b>Password</b></label>
+					<input id="password" type="password" placeholder="Enter Password" name="psw" required>
+
+					<button style="margin: 5px; width:100%;" type="button" id="login_btn"> Login </button>
+					<button style="margin: 5px; width:100%;" type="button" id="register_btn"> Register </button>
+
+					<input type="checkbox" checked="checked"> Remember Me
+				  </div>
+
+				  <div class="container" style="background-color:#f1f1f1">
+					<button type="button" class="cancelbtn">Cancel</button>
+					<span class="psw">Forgot <a href="#">Password?</a></span>
+				  </div>
+				</form>
 			</div>
-			
-			<p id="errorMsg" class="error"></p>
-
-			<label><b>Username</b></label>
-			<input id="nickname" type="text" placeholder="Enter Username" name="uname" required>
-
-			<label><b>Password</b></label>
-			<input id="password" type="password" placeholder="Enter Password" name="psw" required>
-
-			<button style="margin: 5px; width:100%;" type="button" id="login_btn"> Login </button>
-			<button style="margin: 5px; width:100%;" type="button" id="register_btn"> Register </button>
-
-			<input type="checkbox" checked="checked"> Remember Me
-		  </div>
-
-		  <div class="container" style="background-color:#f1f1f1">
-			<button type="button" class="cancelbtn">Cancel</button>
-			<span class="psw">Forgot <a href="#">Password?</a></span>
-		  </div>
-		</form>
+		</div>
 	</div>
 		
 
 
 
 	<!--  REGISTRATION UI  -->
-	<div id="registerWrap">
+	<div id="registerWrap" class="container container-table">
 		<header> 
 			<div id="backsplash">
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
@@ -140,59 +144,63 @@
 			<h1> New User </h1>
 		</header>
 		
-		<form action="#">
-		  <div class="container">
-		  
-			<label><b>Username:</b></label>
-			<input id="nickname2" type="text" placeholder="Enter a Username" name="fname" required>
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				<form action="#">
+				  <div class="container">
+				  
+					<label><b>Username:</b></label>
+					<input id="nickname2" type="text" placeholder="Enter a Username" name="fname" required>
 
-			<div>
-			<label><b>Full Name:</b></label>
-			<input id="name" type="text" placeholder="Enter Full Name" name="lname" required>
+					<div>
+					<label><b>Full Name:</b></label>
+					<input id="name" type="text" placeholder="Enter Full Name" name="lname" required>
+					</div>
+
+					<label><b>Email:</b></label>
+					<input id="email" type="text" placeholder="Enter Email" name="email" required>
+
+					<label><b>Phone:</b></label>
+					<input id="phone" type="text" placeholder="Enter Phone Number" name="phone" required>
+					
+					<label><b>Password:</b></label>
+					<input id="password2" type="password" placeholder="Enter Password" name="psw" required>
+
+					<label><b>Retype Password:</b></label>
+					<input type="password" placeholder="Enter Password" name="psw" required>
+					
+					</div>
+
+
+					<input id="doctorBox" type="checkbox"> Doctor
+
+					<button type="button" id="getStarted_btn"> Get Started </button>
+				</form>
 			</div>
-
-			<label><b>Email:</b></label>
-			<input id="email" type="text" placeholder="Enter Email" name="email" required>
-
-			<label><b>Phone:</b></label>
-			<input id="phone" type="text" placeholder="Enter Phone Number" name="phone" required>
-			
-			<label><b>Password:</b></label>
-			<input id="password2" type="password" placeholder="Enter Password" name="psw" required>
-
-			<label><b>Retype Password:</b></label>
-			<input type="password" placeholder="Enter Password" name="psw" required>
-			
-			</div>
-
-
-			<input id="doctorBox" type="checkbox"> Doctor
-
-			<button type="button" id="getStarted_btn"> Get Started </button>
-		
-		  </form>
+		</div>
 	</div>
 
 
 
 
 	<!--  MAIN MENU  -->
-	<div id="mainmenuWrap">
+	<div id="mainmenuWrap" class="container vertical-center">
 		<header> 
 			<div id="backsplash">
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
 			<h1> Home </h1>
 		</header>
-		
-		<form action="#">
-		  <div class="container">
-			<button class="menu_button" id="chat_btn">Chat</button>
-			<button class="menu_button" id="faq_btn">FAQ</button>
-			<button class="menu_button" id="record_btn">Record Vitals</button>
-			<button class="menu_button" id="history_btn">History</button>
-		  </div>
-		</form>
+		<div class="row">
+				<form action="#">
+				  <div class="container">
+					<button class="menu_button" id="chat_btn">Chat</button>
+					<button class="menu_button" id="faq_btn">FAQ</button>
+					<button class="menu_button" id="record_btn">Record Vitals</button>
+					<button class="menu_button" id="history_btn">History</button>
+				  </div>
+				</form>
+		</div>
 	</div>
 
 
@@ -202,18 +210,23 @@
 
 
 	<!--  FAQ UI  -->
-	<div id="faqWrap">
+	<div id="faqWrap" class="container vertical-center">
 		<header> 
 			<div id="backsplash">
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
-			<h1> FAQ </h1>
+			<h1> FAQ 
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+					<span class="glyphicon glyphicon-arrow-left"></span>  Back
+				</button>
+			</h1>
 		</header>
+	
+		<div class="row">
 
-		<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
-			<span class="glyphicon glyphicon-arrow-left"></span>  Back
-		</button>
+			<!-- CONTENT / FRONT END HTML GOES HERE -->
 		
+		</div>
 	</div>
 
 
@@ -222,18 +235,23 @@
 
 
 	<!--  Record Vitals UI  -->
-	<div id="recordWrap">
+	<div id="recordWrap" class="container vertical-center">
 		<header> 
 			<div id="backsplash">
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
-			<h1> Record Vitals </h1>
+			<h1> Record Vitals 
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+					<span class="glyphicon glyphicon-arrow-left"></span>  Back
+				</button>
+			</h1>
 		</header>
 
-		<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
-			<span class="glyphicon glyphicon-arrow-left"></span>  Back
-		</button>
+		<div class="row">
 
+			<!-- CONTENT / FRONT END HTML GOES HERE -->
+
+		</div>
 	</div>
 
 
@@ -243,18 +261,22 @@
 
 
 	<!-- Medical History UI  -->
-	<div id="historyWrap">
+	<div id="historyWrap" class="container vertical-center">
 		<header> 
 			<div id="backsplash">
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
-			<h1> Medical History </h1>
+			<h1> Medical History 
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+					<span class="glyphicon glyphicon-arrow-left"></span>  Back
+				</button>
+			</h1>
 		</header>
+		<div class="row">
 
-		<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
-			<span class="glyphicon glyphicon-arrow-left"></span>  Back
-		</button>
-
+			<!-- CONTENT / FRONT END HTML GOES HERE -->
+			
+		</div>
 	</div>
 
 
@@ -267,7 +289,11 @@
 			<div id="backsplash">
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
-			<h1> Chat </h1>
+			<h1> Chat 
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+					<span class="glyphicon glyphicon-arrow-left"></span>  Back
+				</button>
+			</h1>
 		</header>
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -279,15 +305,13 @@
 						</div>
 
 						<div class="btn-group" role="group" style="width: 100%;">
-							 <button class="btn btn-default" type="button" id="sendMsg" style="width: 33.3%;">
+							 <button class="btn btn-default" type="button" id="sendMsg" style="width: 50%;">
 								<span class="glyphicon glyphicon-send"></span>  Send
 							</button>
-							<button class="btn btn-default" type="button" id="clear" style="width: 33.3%">
+							<button class="btn btn-default" type="button" id="clear" style="width: 50%">
 								<span class="glyphicon glyphicon-remove-circle"></span>  Clear Chat History
 							</button>
-							<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
-								<span class="glyphicon glyphicon-arrow-left"></span>  Back
-							</button>
+							
 						</div>
 					</div>
 				</div>
