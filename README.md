@@ -4,7 +4,8 @@
 1. clone repository 
 2. run prompt > npm install 
 3. run server > nodemon add.js
-4. Open browser and search > 128.194.131.156:3000 (ip is contingent on server / your computer's ip)
+4. Open browser and search > 128.194.131.156:3000 
+* (ip is contingent on server / your computer's ip)
 5. Proceed to demo the application!
 
 ### DO NOT PUSH TO MASTER
