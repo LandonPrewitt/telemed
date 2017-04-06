@@ -118,9 +118,11 @@
 					<input id="password" type="password" placeholder="Enter Password" name="psw" required>
 
 					<button style="margin: 5px; width:100%;" type="button" id="login_btn"> 
-						<span class="glyphicon glyphicon-log-in"></span>   Login 
+						<span class="glyphicon glyphicon-log-in"></span>   <strong>Login</strong> 
 					</button>
-					<button style="margin: 5px; width:100%;" type="button" id="register_btn"> Register </button>
+					<button style="margin: 5px; width:100%;" type="button" id="register_btn">
+						<span class="glyphicon glyphicon-list-alt"></span>    <strong>Register</strong>
+					</button>
 
 					<input type="checkbox" checked="checked"> Remember Me
 				  </div>
@@ -148,36 +150,45 @@
 		
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-				<form action="#">
-				  <div class="container">
-				  
+				<div class="container">
+
+
 					<label><b>Username:</b></label>
-					<input id="nickname2" type="text" placeholder="Enter a Username" name="fname" required>
+					<div class="input-group">
+					 	<span class="input-group-addon" id="sizing-addon3">@</span>
+					 	<input id="nickname2" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3">
+					</div>
+					
 
-					<div>
-					<label><b>Full Name:</b></label>
-					<input id="name" type="text" placeholder="Enter Full Name" name="lname" required>
+					<div class="row">
+						<label><b>Full Name:</b></label>
+						<input id="name" type="text" placeholder="Enter Full Name" name="lname" required>
 					</div>
 
-					<label><b>Email:</b></label>
-					<input id="email" type="text" placeholder="Enter Email" name="email" required>
-
-					<label><b>Phone:</b></label>
-					<input id="phone" type="text" placeholder="Enter Phone Number" name="phone" required>
-					
-					<label><b>Password:</b></label>
-					<input id="password2" type="password" placeholder="Enter Password" name="psw" required>
-
-					<label><b>Retype Password:</b></label>
-					<input type="password" placeholder="Enter Password" name="psw" required>
-					
+					<div class="row">
+						<label><b>Email:</b></label>
+						<input id="email" type="text" placeholder="Enter Email" name="email" required>
 					</div>
 
+					<div class="row">
+						<label><b>Phone:</b></label>
+						<input id="phone" type="text" placeholder="Enter Phone Number" name="phone" required>
+					</div>
 
-					<input id="doctorBox" type="checkbox"> Doctor
+					<div class="row">
+						<label><b>Password:</b></label>
+						<input id="password2" type="password" placeholder="Enter Password" name="psw" required>
+					</div>
 
-					<button type="button" id="getStarted_btn"> Get Started </button>
-				</form>
+					<div class="row">
+						<label><b>Retype Password:</b></label>
+						<input type="password" placeholder="Enter Password" name="psw" required>
+					</div>
+				
+				</div>
+
+				<input id="doctorBox" type="checkbox"> Doctor
+				<button type="button" id="getStarted_btn"> Get Started </button>
 			</div>
 		</div>
 	</div>
