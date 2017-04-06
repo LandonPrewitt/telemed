@@ -103,6 +103,13 @@ jQuery(function($){
 		$('#recordWrap').show();
 	});
 
+	$('#logout_btn').click(function(e){
+		socket.disconnect();
+		$('#mainmenuWrap').hide();
+		$('#nickWrap').show();
+		socket.connect();
+	});
+
 	// ======================= jQuery for Chat Menu Buttons ===================================
 
 	// Hanle when chatBack_btn is clicked
