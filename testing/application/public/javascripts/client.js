@@ -2,6 +2,9 @@ var activeRoom;
 var previewTracks;
 var identity;
 var roomName;
+var token;
+
+var endoRoom;
 
 function attachTracks(tracks, container) {
   tracks.forEach(function(track) {
@@ -38,10 +41,13 @@ window.addEventListener('beforeunload', leaveRoomIfJoined);
 
 $.getJSON('/token', function(data) {
 
+  token = data.token;
+
   // TODO pull from database/server
   identity = 'John Doe';
 
   // TODO to be pulled from database of logged in client
+  // or simply 'webcam'
   roomName = 'Patient ' + identity;
 
   var connectOptions = { name: roomName, logLevel: 'debug' };
@@ -49,9 +55,12 @@ $.getJSON('/token', function(data) {
     connectOptions.tracks = previewTracks;
   }
 
-  Twilio.Video.connect(data.token, connectOptions).then(roomJoined, function(error) {
-    //log('Could not connect to Twilio: ' + error.message);
-  });
+  const { connect, createLocalTracks } = Twilio.Video;
+
+  Twilio.Video.createLocalTracks().then(localTracks => {
+      console.log('audio and video tracks: ', localTracks[1]);
+      Twilio.Video.connect(token, { name: roomName, tracks: localTracks }).then(roomJoined);
+    });
   
 });
 
@@ -95,25 +104,60 @@ function roomJoined(room) {
   });
 }
 
-//  Local video preview
-document.getElementById('button-preview').onclick = function() {
-  var localTracksPromise = previewTracks
-    ? Promise.resolve(previewTracks)
-    : Twilio.Video.createLocalTracks();
+function drawEndoscope(room) {
+  endoRoom = room;
 
-  localTracksPromise.then(function(tracks) {
-    previewTracks = tracks;
-    var previewContainer = document.getElementById('local-media');
-    if (!previewContainer.querySelector('video')) {
-      attachTracks(tracks, previewContainer);
-    }
-  }, function(error) {
-    console.error('Unable to access local media', error);
+  // Draw local video, if not already previewing
+  var previewContainer = document.getElementById('endoscope');
+  if (!previewContainer.querySelector('video')) {
+    attachParticipantTracks(room.localParticipant, previewContainer);
+  }
+
+  // When a participant joins, draw their video on screen
+  room.on('participantConnected', function(participant) {
   });
-};
+
+  room.on('trackAdded', function(track, participant) {
+    var previewContainer = document.getElementById('remote-media');
+    attachTracks([track], previewContainer);
+  });
+
+  room.on('trackRemoved', function(track, participant) { detachTracks([track]); });
+
+  // When a participant disconnects, note in //log
+  room.on('participantDisconnected', function(participant) {
+    detachParticipantTracks(participant);
+  });
+
+  // When we are disconnected, stop capturing local video
+  // Also remove media for all remote participants
+  room.on('disconnected', function() {
+    detachParticipantTracks(room.localParticipant);
+    room.participants.forEach(detachParticipantTracks);
+    activeRoom = null;
+  });
+}
 
 function leaveRoomIfJoined() {
   if (activeRoom) {
     activeRoom.disconnect();
+  }
+}
+
+document.getElementById('endoscope-enable').onclick = function(){
+
+  if(!endoRoom){
+    var endoscopeView = document.getElementById('endoscope');
+    
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+      var videoInput = devices.find(device => device.label == "USB 2.0 PC Cam (090c:037c)");
+      return Twilio.Video.createLocalTracks({ audio: false, video: { deviceId: videoInput.deviceId } });
+    }).then(localTracks => {
+    return Twilio.Video.connect(token, { name: 'Endoscope', tracks: localTracks }).then(drawEndoscope);
+  });
+    document.getElementById('endoscope-enable').innerHTML = 'Disable Endoscope';
+  } else {
+    endoRoom.disconnect();
+    document.getElementById('endoscope-enable').innerHTML = 'Enable Endoscope';
   }
 }
