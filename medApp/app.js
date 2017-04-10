@@ -76,6 +76,37 @@ io.sockets.on('connection', function(socket){
 		io.sockets.emit('usernames', {users:Object.keys(users_server), user: socket.nickname});
 	}
 
+	// Function to initiate data recording from EL 10 and recieve
+	function recordData(vital) {
+
+		amqp.connect('amqp://localhost', function(err, conn) {
+		  conn.createChannel(function(err, ch) {
+		   
+
+		  	// Code to signal the data to be send
+		    var data = "{\"action\": \"sm\",\"device\": \"sc\"}"
+		    ch.assertQueue('cmd', {durable: false});
+		    // Note: on Node 6 Buffer.from(msg) should be used
+		    ch.sendToQueue('cmd', new Buffer(data));
+		    console.log(" [x] Sent %s",data);
+
+
+
+		  	// COde for recieving Data
+		    ch.assertQueue(vital, {durable: false});
+		    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", vital);
+			ch.consume(vital, function(msg) {
+				socket.emit('push vital', {val: msg.content.toString(), type: vital});
+				//callback(msg.content.toString());
+				console.log(" [x] Received %s", msg.content.toString());
+				conn.close();
+			}, {noAck: true});
+
+			//abort();
+		  });
+		});
+	}
+
 	// When user connects, load messages from db
 	Chat.find({}, function(err, docs){
 		if(err) throw err;
@@ -211,25 +242,10 @@ io.sockets.on('connection', function(socket){
 		socket.nickname = data;
 	});
 
-	socket.on('collect sc', function(callback) {
+	socket.on('collect', function(data, callback) {
 
-		
-		amqp.connect('amqp://localhost', function(err, conn) {
-		  conn.createChannel(function(err, ch) {
-		   
-
-		    ch.assertQueue('sc', {durable: false});
-		    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", 'sc');
-			ch.consume('sc', function(msg) {
-				socket.emit('push sc', msg.content.toString());
-				//callback(msg.content.toString());
-				console.log(" [x] Received %s", msg.content.toString());
-			}, {noAck: true});
-		  });
-		});
-		
-
-		// End of darrens code. 
-
+		recordData(data);
 	});
+
+
 });
