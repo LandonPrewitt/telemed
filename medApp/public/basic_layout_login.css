@@ -32,6 +32,17 @@ button:hover {
     opacity: 0.8;
 }
 
+input[type=button]
+{
+    background-color: red; /*#4CAF50*/
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
 /* Extra style for the cancel button (red) */
 .cancelbtn {
     width: auto;
@@ -145,24 +156,101 @@ header
 	top: 375px;
 }
 
+.vitals-page{
+  padding: 25px 12%;
+}
+
+.left-vitals
+{
+  float: left;
+  width: 400px;
+}
+
+.right-vitals
+{
+  padding-top: 20px;
+  float: left;
+}
+
 .container_1
 {
 	float: left;
+  width: 100px;
 }
 
 .container_2
 {
 	float: left;
+  width: 300px;
+}
+
+#vitals-record
+{
+  margin-bottom: 25px;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+#current
+{
+  width: 30%;
+  height: 25px;
+    padding: 12px 20px;
+    margin: 15px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#current_doctor
+{
+  width: 75%%;
+  height: 25px;
+    padding: 12px 20px;
+    margin: 15px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 #collect
 {
-	background-color: red; /*#4CAF50*/
+  background-color: red; /*#4CAF50*/
     color: white;
-    padding: 14px 20px;
+    padding: 5px 10px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 50px;
+    width: 75px;
+  height: 25px;
+  border-radius: 5px;
 }
-	
+
+#collect_endo
+{
+  background-color: red; /*#4CAF50*/
+    color: white;
+    padding: 5px 10px;
+    margin: 8px 10px;
+    border: none;
+    cursor: pointer;
+    width: 175px;
+  height: 25px;
+  border-radius: 5px;
+}
+
+.doctors-notes
+{
+  width: 100%;
+  float: left;
+}
+
+.notes-input
+{
+    /*border: 3px solid #f1f1f1;*/
+  width: 50%;
+  /*padding: 0px 100px;*/
+}
+
+
+
