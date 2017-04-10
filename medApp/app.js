@@ -1,11 +1,16 @@
 var express = require("express"),
+	fs = require('fs'),
 	app = express(),
-	server = require("http").createServer(app),
+	server = require('https').createServer({ key: fs.readFileSync('key.pem'), cert: fs.readFileSync('cert.pem')}, app),
 	io = require("socket.io").listen(server),
 	mongoose = require('mongoose'),
 	users_server = {};
 
+//var holla = require('holla');
+
 server.listen(3000);
+
+//var rtc = holla.createServer(server);
 
 // Mongo DB Code ================================================
 

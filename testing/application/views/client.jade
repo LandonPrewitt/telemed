@@ -13,12 +13,20 @@ html
         |       
         #local-media
         |       
-        button#button-preview Preview My Camera
+        button#endoscope-enable Enable Endoscope
+        |  
+        #endoscope
+        | 
+        <canvas data-processing-sources="/Processing/ecg_processing.pde"></canvas>
     |   
     script(src="//media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js")
     |   
     script(src="//media.twiliocdn.com/sdk/js/video/releases/1.0.0-beta5/twilio-video.js")
     |   
     script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
-    |   
+    |  
+    script(src="/javascripts/peer.js")
+    | 
     script(src="/javascripts/client.js")
+    | 
+    script(src="/javascripts/processing.min.js")

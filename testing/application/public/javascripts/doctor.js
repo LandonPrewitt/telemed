@@ -3,8 +3,6 @@ var previewTracks;
 var identity;
 var roomName;
 
-console.log('Found the code');
-
 function attachTracks(tracks, container) {
   tracks.forEach(function(track) {
     container.appendChild(track.attach());
@@ -49,6 +47,7 @@ $.getJSON('/token', function(data) {
      roomName = 'Patient John Doe';
 
       var connectOptions = { name: roomName, logLevel: 'debug' };
+      
       if (previewTracks) {
         connectOptions.tracks = previewTracks;
       }
@@ -56,6 +55,12 @@ $.getJSON('/token', function(data) {
       Twilio.Video.connect(data.token, connectOptions).then(roomJoined, function(error) {
         console.log('Could not connect to Twilio: ' + error.message);
       });
+
+      Twilio.Video.connect(data.token, {name: "Endoscope", video: false}).then(drawEndoscope, function(error) {
+        console.log('Could not connect to Twilio: ' + error.message);
+      });
+
+
 });
 
 // Successfully connected!
@@ -79,6 +84,37 @@ function roomJoined(room) {
 
   room.on('trackAdded', function(track, participant) {
     var previewContainer = document.getElementById('remote-media');
+    attachTracks([track], previewContainer);
+  });
+
+  room.on('trackRemoved', function(track, participant) { detachTracks([track]); });
+
+  // When a participant disconnects, note in //log
+  room.on('participantDisconnected', function(participant) { detachParticipantTracks(participant); });
+
+  // When we are disconnected, stop capturing local video
+  // Also remove media for all remote participants
+  room.on('disconnected', function() {
+    detachParticipantTracks(room.localParticipant);
+    room.participants.forEach(detachParticipantTracks);
+    activeRoom = null;
+  });
+}
+
+function drawEndoscope(room) {
+  //activeRoom = room;
+
+  room.participants.forEach(function(participant) {
+    var previewContainer = document.getElementById('endoscope');
+    attachParticipantTracks(participant, previewContainer);
+  });
+
+  // When a participant joins, draw their video on screen
+  room.on('participantConnected', function(participant) {
+  });
+
+  room.on('trackAdded', function(track, participant) {
+    var previewContainer = document.getElementById('endoscope');
     attachTracks([track], previewContainer);
   });
 
