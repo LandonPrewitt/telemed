@@ -96,11 +96,11 @@ def contProducer(channel):
     while(True):
         #readings = json.JSONEncoder().encode({"lengths":lengths, "alt":alt})
         #channel.basic_publish(exchange='', routing_key="temp", body=tempSensor.getMeasure())
-        #channel.basic_publish(exchange='', routing_key="ecg", body=ecgSensor.getMeasure())
+         channel.basic_publish(exchange='', routing_key="ecg", body=JSONEncoder().encode(ecgSensor.getMeasureArr(10)))
         #channel.basic_publish(exchange='', routing_key="oxi", body=str(oxiSensor.getMeasureOxi()))
         #channel.basic_publish(exchange='', routing_key="hr", body=str(oxiSensor.getMeasureHR()))
         #channel.basic_publish(exchange='', routing_key="pi", body=str(oxiSensor.getMeasurePI()))
-	channel.basic_publish(exchange='', routing_key="pi", body="u suck")
+	    #channel.basic_publish(exchange='', routing_key="pi", body="u suck")
         print("Five sensors decoded data sent", channel)
         sleep(1)
         
