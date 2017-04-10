@@ -28,7 +28,7 @@ class BlueBPSensor:
         try:
             device = adapter.connect(self.macaddr)
         except pygatt.exceptions.NotConnectedError:
-            print "Error:", errrorcodes.error_desc[1]
+            print "Error:", errorcodes.error_desc[1]
             return (errorcodes.error[1], -1, -1)
         try:
             device.subscribe(self.datacharuuid, callback = self.notificationHandler, indication = True)
@@ -42,7 +42,7 @@ class BlueBPSensor:
         except pygatt.exceptions.NotificationTimeout:
             device.disconnect()
             adapter.stop()
-            print "Error:", errrorcodes.error_desc[2]
+            print "Error:", errorcodes.error_desc[2]
             return (errorcodes.error[2], -1, -1)
         device.disconnect()
         adapter.stop()

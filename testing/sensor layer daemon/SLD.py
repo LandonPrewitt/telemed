@@ -1,4 +1,4 @@
-import ardSensor, blueOxiSensor, blueBPSensor, pika, threading, json, sys
+import ardSensor, blueOxiSensor, blueBPSensor, blueSCSensor, errorcodes, pika, threading, json, sys
 from time import sleep
 
 
@@ -9,24 +9,24 @@ def main(argv):
         return 1
     
     # Initializing continous measuring sensors
-    try:
-        tempSensor = ardSensor.ArdSensor("t")
-        ecgSensor = ardSensor.ArdSensor("e")
-   except:
-        pass
+    #try:
+     #   tempSensor = ardSensor.ArdSensor("t")
+    #    ecgSensor = ardSensor.ArdSensor("e")
+ #  except:
+     #   pass
         #TODO implement exception handler for arduino not connected
         #print "Error connecting to arduino interface"
         #publishError(channel, 1)
-    try:
-        oxiSensor = blueOxiSensor.BlueOxiSensor()
-    except pygatt.exceptions.NotConnectedError:
-        print "Error connecting to oximeter module"
-        publishError(channel, 1)
+   # try:
+    #    oxiSensor = blueOxiSensor.BlueOxiSensor()
+   # except pygatt.exceptions.NotConnectedError:
+    #    print "Error connecting to oximeter module"
+    #    publishError(channel, 1)
     
     # Connecting and setting up rabbitmq message broker
     connection = pika.BlockingConnection(pika.URLParameters(argv[1]))
     channel = connection.channel()
-    queues = ["error", "cmd", "temp", "ecg", "oxi", "hr", "pi", "sysbp", "diabp", "pulse"]
+    queues = ["error", "cmd", "temp", "ecg", "oxi", "hr", "pi", "sysbp", "diabp", "pulse", "weight"]
     for qstr in queues:
         channel.queue_declare(queue=qstr)
     
@@ -49,10 +49,16 @@ def main(argv):
         sys.exit()
         
 # Decodes command and performs the desired action
- def executeCMD(channel, method, header, body):
+def executeCMD(channel, method, header, body):
+    print body
     cmd = json.JSONDecoder().decode(body)
     if cmd["action"] == "sm": # Start measurement command
             #Start worker for blood pressure measurement
+            singleMeasureWorker = threading.Thread(target=singleMeasureProd, args=(channel, cmd["device"]))
+            singleMeasureWorker.daemon = True
+            singleMeasureWorker.start()
+    elif cmd["action"] == "sc": 
+            #Start worker for scale measurement
             singleMeasureWorker = threading.Thread(target=singleMeasureProd, args=(channel, cmd["device"]))
             singleMeasureWorker.daemon = True
             singleMeasureWorker.start()
@@ -64,14 +70,16 @@ def singleMeasureProd(channel, sensor):
         print "Rcvd command and starting blood pressure measurement procedure.."
         bpSensor = blueBPSensor.BlueBPSensor()
         (sysbp, diabp, pulse) = bpSensor.startMeasure()
-        channel.basic_publish(exchange='', routing_key="sysbp", body=sysbp)
-        channel.basic_publish(exchange='', routing_key="diabp", body=diabp)
-        channel.basic_publish(exchange='', routing_key="pulse", body=pulse)
+        channel.basic_publish(exchange='', routing_key="sysbp", body=str(sysbp))
+        #channel.basic_publish(exchange='', routing_key="diabp", body=diabp)
+        #channel.basic_publish(exchange='', routing_key="pulse", body=pulse)
         print "Measurement sent"
 
     elif sensor == "sc":
-        print "shii"
-        pass    
+        print "Rcvd command and starting weight measurement procedure.."
+        scSensor = blueSCSensor.BlueSCSensor()
+        weight = scSensor.startMeasure()
+        channel.basic_publish(exchange='', routing_key="sc", body=str(round(weight*2.20462/10,1)))
     
     else:
         publishError(channel, 3)
@@ -92,6 +100,7 @@ def contProducer(channel):
         #channel.basic_publish(exchange='', routing_key="oxi", body=str(oxiSensor.getMeasureOxi()))
         #channel.basic_publish(exchange='', routing_key="hr", body=str(oxiSensor.getMeasureHR()))
         #channel.basic_publish(exchange='', routing_key="pi", body=str(oxiSensor.getMeasurePI()))
+	channel.basic_publish(exchange='', routing_key="pi", body="u suck")
         print("Five sensors decoded data sent", channel)
         sleep(1)
         

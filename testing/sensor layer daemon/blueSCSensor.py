@@ -20,10 +20,10 @@ class BlueSCSensor:
     def startMeasure(self):
         adapter = pygatt.GATTToolBackend()
         adapter.start()
-        sleep(5)
         try:
             device = adapter.connect(self.macaddr)
         except pygatt.exceptions.NotConnectedError:
+	    adapter.stop()
             print "Error:", errorcodes.error_desc[1]
             return errorcodes.error[1]
         try:
