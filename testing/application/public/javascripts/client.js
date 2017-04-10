@@ -89,7 +89,6 @@ function roomJoined(room) {
   });
 
   room.on('trackRemoved', function(track, participant) { detachTracks([track]); });
-
   // When a participant disconnects, note in //log
   room.on('participantDisconnected', function(participant) {
     detachParticipantTracks(participant);
@@ -158,6 +157,7 @@ document.getElementById('endoscope-enable').onclick = function(){
     document.getElementById('endoscope-enable').innerHTML = 'Disable Endoscope';
   } else {
     endoRoom.disconnect();
+    endoRoom = null;
     document.getElementById('endoscope-enable').innerHTML = 'Enable Endoscope';
   }
 }
