@@ -20,6 +20,8 @@ jQuery(function($){
 	var $myName = '';
 
 
+	// ======================= jQuery for Logging in / Registering ===================================
+
 	// Hande the action for when a user defines their nickname and submits
 	$login.click(function(e){
 		e.preventDefault();
@@ -108,6 +110,63 @@ jQuery(function($){
 		$('#mainmenuWrap').hide();
 		$('#nickWrap').show();
 		socket.connect();
+	});
+
+	// ======================= jQuery for Recording Vitals ===================================
+
+	$('#collect_sc').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'sc');
+	});
+
+	$('#collect_temp').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'temp');
+	});
+
+	// Oximeter
+	$('#collect_oxi').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'oxi');
+	});
+
+	// Oximeter
+	$('#collect_hr').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'hr');
+	});
+
+	// Oximeter
+	$('#collect_pi').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'pi');
+	});
+
+	// For bp
+	$('#collect_sys').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'sys');
+	});
+
+	// For bp
+	$('#collect_diabp').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'diabp');
+	});
+
+	// For bp
+	$('#collect_pulse').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'pulse');
+	});
+
+	$('#collect_ecg').click(function(e){
+		e.preventDefault();
+		socket.emit('collect', 'ecg');
+	});
+
+	socket.on('push vital', function(data){
+		$('#' + data.type + '_result').html(data.val);
 	});
 
 	// ======================= jQuery for Chat Menu Buttons ===================================

@@ -4,6 +4,7 @@ var express = require("express"),
 	server = require('https').createServer({ key: fs.readFileSync('key.pem'), cert: fs.readFileSync('cert.pem')}, app),
 	io = require("socket.io").listen(server),
 	mongoose = require('mongoose'),
+	amqp = require('amqplib/callback_api'),
 	users_server = {};
 
 //var holla = require('holla');
@@ -73,6 +74,37 @@ io.sockets.on('connection', function(socket){
 	// io Function for updating usernames
 	function updateNicknames() {
 		io.sockets.emit('usernames', {users:Object.keys(users_server), user: socket.nickname});
+	}
+
+	// Function to initiate data recording from EL 10 and recieve
+	function recordData(vital) {
+
+		amqp.connect('amqp://localhost', function(err, conn) {
+		  conn.createChannel(function(err, ch) {
+		   
+
+		  	// Code to signal the data to be send
+		    var data = "{\"action\": \"sm\",\"device\": \"sc\"}"
+		    ch.assertQueue('cmd', {durable: false});
+		    // Note: on Node 6 Buffer.from(msg) should be used
+		    ch.sendToQueue('cmd', new Buffer(data));
+		    console.log(" [x] Sent %s",data);
+
+
+
+		  	// COde for recieving Data
+		    ch.assertQueue(vital, {durable: false});
+		    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", vital);
+			ch.consume(vital, function(msg) {
+				socket.emit('push vital', {val: msg.content.toString(), type: vital});
+				//callback(msg.content.toString());
+				console.log(" [x] Received %s", msg.content.toString());
+				conn.close();
+			}, {noAck: true});
+
+			//abort();
+		  });
+		});
 	}
 
 	// When user connects, load messages from db
@@ -209,5 +241,11 @@ io.sockets.on('connection', function(socket){
 	socket.on('update socket', function(data){
 		socket.nickname = data;
 	});
+
+	socket.on('collect', function(data, callback) {
+
+		recordData(data);
+	});
+
 
 });
