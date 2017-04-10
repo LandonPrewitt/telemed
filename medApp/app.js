@@ -4,6 +4,7 @@ var express = require("express"),
 	server = require('https').createServer({ key: fs.readFileSync('key.pem'), cert: fs.readFileSync('cert.pem')}, app),
 	io = require("socket.io").listen(server),
 	mongoose = require('mongoose'),
+	amqp = require('amqplib/callback_api'),
 	users_server = {};
 
 //var holla = require('holla');
@@ -210,4 +211,25 @@ io.sockets.on('connection', function(socket){
 		socket.nickname = data;
 	});
 
+	socket.on('collect sc', function(callback) {
+
+		
+		amqp.connect('amqp://localhost', function(err, conn) {
+		  conn.createChannel(function(err, ch) {
+		   
+
+		    ch.assertQueue('sc', {durable: false});
+		    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", 'sc');
+			ch.consume('sc', function(msg) {
+				socket.emit('push sc', msg.content.toString());
+				//callback(msg.content.toString());
+				console.log(" [x] Received %s", msg.content.toString());
+			}, {noAck: true});
+		  });
+		});
+		
+
+		// End of darrens code. 
+
+	});
 });

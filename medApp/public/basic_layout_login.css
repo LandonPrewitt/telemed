@@ -163,7 +163,7 @@ header
 .left-vitals
 {
   float: left;
-  width: 400px;
+  width: 800px;
 }
 
 .right-vitals
@@ -175,7 +175,7 @@ header
 .container_1
 {
 	float: left;
-  width: 100px;
+  /*width: 100px;*/
 }
 
 .container_2
@@ -191,7 +191,7 @@ header
   padding-top: 10px;
 }
 
-#current
+.current
 {
   width: 30%;
   height: 25px;
@@ -213,7 +213,7 @@ header
     box-sizing: border-box;
 }
 
-#collect
+.collect
 {
   background-color: red; /*#4CAF50*/
     color: white;

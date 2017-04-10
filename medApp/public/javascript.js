@@ -20,6 +20,8 @@ jQuery(function($){
 	var $myName = '';
 
 
+	// ======================= jQuery for Logging in / Registering ===================================
+
 	// Hande the action for when a user defines their nickname and submits
 	$login.click(function(e){
 		e.preventDefault();
@@ -108,6 +110,22 @@ jQuery(function($){
 		$('#mainmenuWrap').hide();
 		$('#nickWrap').show();
 		socket.connect();
+	});
+
+	// ======================= jQuery for Recording Vitals ===================================
+
+	$('#collect_sc').click(function(e){
+		e.preventDefault();
+		socket.emit('collect sc', function(data) {
+
+			// Display data on webpage
+			$('#sc_result').html(data);
+
+		});
+	});
+
+	socket.on('push sc', function(data){
+		$('#sc_result').html(data);
 	});
 
 	// ======================= jQuery for Chat Menu Buttons ===================================
