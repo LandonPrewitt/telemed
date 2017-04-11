@@ -18,6 +18,7 @@ jQuery(function($){
 	var $getStarted = $('#getStarted_btn');
 	var $chat_btn = $('chat_btn');
 	var $myName = '';
+	var $vitalsID = 'n/a';
 
 
 	// ======================= jQuery for Logging in / Registering ===================================
@@ -96,6 +97,30 @@ jQuery(function($){
 		e.preventDefault();
 		$('#mainmenuWrap').hide();
 		$('#historyWrap').show();
+		socket.emit('load history', $myName ,function(data) {
+
+			$('#history').html('');
+
+			for(var i=data.length-1; i>=0; i--) {
+				$('#history').append('<div style="border-style: groove;">');
+			//	for(var j=0; j<data[i].length; j++) {
+					$('#history').append('Time-stamp: ' + data[i]['date'] + '</br>');
+					$('#history').append('Weight: ' + data[i]['weight'] + '</br>');
+					$('#history').append('Sys BP: ' + data[i]['sysBP'] + '</br>');
+					$('#history').append('Dia BP: ' + data[i]['diaBP'] + '</br>');
+					$('#history').append('Pulse: ' + data[i]['pulse'] + '</br>');
+					$('#history').append('Blood Oxygen: ' + data[i]['bo'] + '</br>');
+					$('#history').append('PI: ' + data[i]['pi'] + '</br>');
+					$('#history').append('Heart Rate: ' + data[i]['hr'] + '</br>');
+					$('#history').append('Temperature: ' + data[i]['temp'] + '</br>');
+					$('#history').append('ECG: ' + data[i]['ecg'] + '</br>');
+
+			//	}
+				$('#history').append('</div>');
+			}
+			
+
+		});
 	});
 
 	// Handle when Record Vitals is opened
@@ -109,6 +134,8 @@ jQuery(function($){
 		socket.disconnect();
 		$('#mainmenuWrap').hide();
 		$('#nickWrap').show();
+		$vitalsID = 'n/a';
+		$myName = '';
 		socket.connect();
 	});
 
@@ -122,6 +149,7 @@ jQuery(function($){
 	$('#collect_temp').click(function(e){
 		e.preventDefault();
 		socket.emit('collect', 'temp');
+		$('#temp_result').html("93");
 	});
 
 	// Oximeter
@@ -163,6 +191,38 @@ jQuery(function($){
 	$('#collect_ecg').click(function(e){
 		e.preventDefault();
 		socket.emit('collect', 'ecg');
+	});
+
+	$('#recordBack_btn').click(function(e){
+		e.preventDefault();
+
+		var sc = $('#sc_result').html();
+		var temp = $('#temp_result').html();
+		var oxi = $('#oxi_result').html();
+		var hr = $('#hr_result').html();
+		var pi = $('#pi_result').html();
+		var sys = $('#sys_result').html();
+		var diabp = $('#diabp_result').html();
+		var pulse = $('#pulse_result').html();
+		var ecg = $('#ecg_result').html();
+
+		socket.emit('save vitals', {
+			nick: $myName,
+			sc: sc,
+			temp: temp,
+			oxi: oxi,
+			hr: hr,
+			pi: pi,
+			sys: sys,
+			diabp: diabp,
+			pulse: pulse,
+			ecg: ecg,
+			id: $vitalsID
+		}, function(data) {
+			$vitalsID = data;
+		});
+
+
 	});
 
 	socket.on('push vital', function(data){

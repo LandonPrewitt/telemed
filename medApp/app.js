@@ -5,12 +5,16 @@ var express = require("express"),
 	io = require("socket.io").listen(server),
 	mongoose = require('mongoose'),
 	amqp = require('amqplib/callback_api'),
+	moment = require('moment'),
 	users_server = {};
+
+	
 
 //var holla = require('holla');
 
-server.listen(3000);
+server.listen(3001);
 
+console.log(moment().format('Do'));
 //var rtc = holla.createServer(server);
 
 // Mongo DB Code ================================================
@@ -30,7 +34,7 @@ var userSchema = mongoose.Schema({
 	email:String,
 	phone:String,
 	isDoctor:Boolean,
-	created: {type: Date, default: Date.now}
+	created: {type: Date, default: Date.now()}
 });
 
 var chatSchema = mongoose.Schema({
@@ -39,8 +43,24 @@ var chatSchema = mongoose.Schema({
 	created: {type: Date, default: Date.now}
 });
 
+var histSchema = mongoose.Schema({
+	nick: {type:String, default: 'n/a'},
+	weight: {type:String, default: 'n/a'},
+	sysBP: {type:String, default: 'n/a'},
+	diaBP: {type:String, default: 'n/a'},
+	pulse: {type:String, default: 'n/a'},
+	bo: {type:String, default: 'n/a'},
+	pi: {type:String, default: 'n/a'},
+	hr: {type:String, default: 'n/a'},
+	temp: {type:String, default: 'n/a'},
+	ecg: {type: [String], default: 'n/a'},
+	created: {type: String, default: Date.now().toString()}
+});
+
+
 var Chat = mongoose.model('Message', chatSchema); 
 var User = mongoose.model('User', userSchema);
+var Hist = mongoose.model('Hist', histSchema);
 
 // App Page Request Handlers ====================================
 
@@ -243,8 +263,83 @@ io.sockets.on('connection', function(socket){
 	});
 
 	socket.on('collect', function(data, callback) {
-
 		recordData(data);
+	});
+
+	// Handle when vitals are supposed to save: When back btn pressed on record page
+	socket.on('save vitals', function(data, callback) {
+
+		var i = 0;
+
+		// Search to see if user has already saved 
+		var search = Hist.find({nick: data.nick}).cursor()
+		  search.on('data', function(doc){
+		    // handle doc
+		   
+		    if(doc.id.toString() == data.id) {
+		    	console.log("BINGO");
+		    	doc.remove();
+		    }
+		  })
+		  .on('error', function(err){
+		    // handle error
+		  })
+		  .on('end', function(){
+		    // final callback
+		});
+
+
+		var newEntry = new Hist({
+			nick: data.nick,
+			weight: data.sc,
+			sysBP: data.sys,
+			diaBP: data.diabp,
+			pulse: data.pulse,
+			bo: data.oxi,
+			pi: data.pi,
+			hr: data.hr,
+			temp: data.temp,
+			ecg: data.ecg,
+			created: moment().format('MMMM Do YYYY, h:mm:ss')
+		});
+
+		newEntry.save(function(err, room){
+			if(err) throw err;
+			callback(room.id);
+		});
+	});
+
+	// Handle when history page is opened and needs to be loaded. 
+	socket.on('load history', function(data, callback) {
+
+		// Create a query for attaining all usernames in mongo db
+		var entries = [];
+		var cursor = Hist.find({}).cursor();
+		var dup = false;
+		
+		cursor.on('data', function(doc){
+			if (data == doc.nick) {
+				dup = true;
+				var entry = {};
+				entry['weight'] = '';
+				console.log("TEST TEST TEST");
+				entry['weight'] = doc.weight;
+				entry['sysBP'] = doc.sysBP;
+				entry['diaBP'] = doc.diabp;
+				entry['pulse'] = doc.pulse;
+				entry['bo'] = doc.oxi;
+				entry['pi'] = doc.pi;
+				entry['hr'] = doc.hr;
+				entry['temp'] = doc.temp;
+				entry['ecg'] = doc.ecg;
+				entry['date'] = doc.created;
+				entries.push(entry);
+			}
+		});
+
+		cursor.on('close', function(){
+			callback(entries);
+		})	
 	});
 
 
