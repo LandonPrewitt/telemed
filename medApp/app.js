@@ -14,7 +14,7 @@ var express = require("express"),
 
 server.listen(3001);
 
-console.log(moment().format('Do'));
+console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
 //var rtc = holla.createServer(server);
 
 // Mongo DB Code ================================================
@@ -300,7 +300,7 @@ io.sockets.on('connection', function(socket){
 			hr: data.hr,
 			temp: data.temp,
 			ecg: data.ecg,
-			created: moment().format('MMMM Do YYYY, h:mm:ss')
+			created: moment().format('MMMM Do YYYY, h:mm:ss a')
 		});
 
 		newEntry.save(function(err, room){
@@ -322,7 +322,6 @@ io.sockets.on('connection', function(socket){
 				dup = true;
 				var entry = {};
 				entry['weight'] = '';
-				console.log("TEST TEST TEST");
 				entry['weight'] = doc.weight;
 				entry['sysBP'] = doc.sysBP;
 				entry['diaBP'] = doc.diabp;
