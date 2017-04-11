@@ -104,7 +104,7 @@ io.sockets.on('connection', function(socket){
 		   
 
 		  	// Code to signal the data to be send
-		    var data = "{\"action\": \"sm\",\"device\": \"sc\"}"
+		    var data = "{\"action\": \"sm\",\"device\": \"" + vital + "\"}"
 		    ch.assertQueue('cmd', {durable: false});
 		    // Note: on Node 6 Buffer.from(msg) should be used
 		    ch.sendToQueue('cmd', new Buffer(data));
@@ -326,7 +326,7 @@ io.sockets.on('connection', function(socket){
 				entry['sysBP'] = doc.sysBP;
 				entry['diaBP'] = doc.diabp;
 				entry['pulse'] = doc.pulse;
-				entry['bo'] = doc.oxi;
+				entry['bo'] = doc.bo;
 				entry['pi'] = doc.pi;
 				entry['hr'] = doc.hr;
 				entry['temp'] = doc.temp;
