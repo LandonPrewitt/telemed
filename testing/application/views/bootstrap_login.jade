@@ -1,0 +1,68 @@
+header#header7.header7
+  nav.navbar.navbar-default(role="navigation")
+    // Latest compiled and minified CSS
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
+    // Optional theme
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css", integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp", crossorigin="anonymous")
+    // Latest compiled and minified JavaScript
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")
+
+
+    .container
+      .navbar-header
+        button.navbar-toggle(data-target="#navbar-collapse-02", data-toggle="collapse", type="button", data-selector="Footers")
+          span.sr-only Toggle navigation
+          |                 
+          span.icon-bar
+          |                 
+          span.icon-bar
+          |                 
+          span.icon-bar
+        | 
+      |         
+      #navbar-collapse-02.collapse.navbar-collapse
+        ul.nav.navbar-nav.navbar-right
+          li
+            a.nav-button(href="/login", data-selector="Footers") Log In
+      // /.navbar-collapse
+  |     
+  .intro.center-content
+    .container
+      .row
+        .col-md-5
+          form.login-reg
+            .row
+              .col-sm-12
+                h3.pull-stop(data-selector="h3", style="") Welcome! Sign Up
+                |                                 
+                p(data-selector="p", style="") We provide all the services you are Looking for
+              |                             
+              .col-sm-12
+                .form-group
+                  input#exampleInputName2.form-control.input-lg(type="text", placeholder="First Name*")
+              |                             
+              .col-sm-12
+                .form-group
+                  input#exampleInputName2.form-control.input-lg(type="text", placeholder="Last Name*")
+              |                             
+              .col-sm-12
+                .form-group
+                  input#exampleInputEmail2.form-control.input-lg(type="email", placeholder="Your Email*")
+                |                                 
+                button.btn.btn-info.btn-block.button(type="submit", data-selector="Footers", style="") Submit
+                |                                 
+                .sign-tag
+                  p(data-selector="p")
+                    | If You Already Have a Account | 
+                    a(href="/login") Log In
+        |                 
+        .col-md-7
+          img.center-block(src="images/Logo.PNG", alt="#", data-selector="img", style="")
+      // row
+    // intro
+  // container
+
+  
+
+// header

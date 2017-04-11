@@ -157,19 +157,19 @@ header
 }
 
 .vitals-page{
-  padding: 25px 12%;
+  /*padding: 25px 12%;*/
 }
 
 .left-vitals
 {
   float: left;
-  width: 800px;
+  /*width: 800px;*/
 }
 
 .right-vitals
 {
-  padding-top: 20px;
-  float: left;
+  /*padding-top: 20px;*/
+  float: right;
 }
 
 .container_1
@@ -252,5 +252,25 @@ header
   /*padding: 0px 100px;*/
 }
 
+#client_cameras {
+  float: right;
+}
 
+#endoscope_view{
+  width: 100%;
+ /* height: 300px;
+  max-height: 500px;*/
+  float: left;
+}
+
+#local_media{
+  margin-left: 100%;
+  /*height: 300px;
+  max-height: 500px;*/
+  float: left;
+}
+
+#enable-chat{
+
+}
 

@@ -7,11 +7,43 @@ var express = require("express"),
 	amqp = require('amqplib/callback_api'),
 	users_server = {};
 
-//var holla = require('holla');
+require('dotenv').load();
+var AccessToken = require('twilio').AccessToken;
+var VideoGrant = AccessToken.VideoGrant;
 
 server.listen(3000);
 
-//var rtc = holla.createServer(server);
+//--------------------------------------------
+
+// Generate access token for chat application
+app.get('/token', function(req, res) {
+
+	console.log('generating API key');
+
+	var identity = 'telemed';
+
+	var token = new AccessToken(
+		process.env.TWILIO_ACCOUNT_SID,
+		process.env.TWILIO_API_KEY,
+		process.env.TWILIO_API_SECRET
+
+	);
+
+	token.identity = identity;
+
+	// grant the access token Twilio Video capabilities
+	var grant = new VideoGrant();
+	grant.configurationProfileSid = process.env.TWILIO_CONFIGURATION_SID;
+	
+	token.addGrant(grant);
+
+	res.send({
+		identity: identity, 
+		token: token.toJwt()
+	});
+});
+
+//--------------------------------------------
 
 // Mongo DB Code ================================================
 
