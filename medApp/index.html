@@ -12,6 +12,9 @@
     <!-- Awesome Font Icons -->
     <script src="https://use.fontawesome.com/5806412fce.js"></script>
 
+    <!-- TOKBOX --> 
+    <script src="https://static.opentok.com/v2/js/opentok.js" charset="utf-8"></script>
+
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -20,6 +23,8 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	
 
 	<style>
 
@@ -378,6 +383,23 @@
 				<div id="users"></div>
 			</div>
 		</div>
+
+
+
+		<div class="btn-group" role="group" style="width: 100%;">
+			<button class="btn btn-default" type="button" id="createRoom" style="width: 50%;">
+				<span class="glyphicon glyphicon-plus"></span>  Start Video Chat
+			</button>
+
+			<button class="btn btn-default" type="button" id="joinRoom" style="width: 50%;">
+				<span class="glyphicon glyphicon-eye-open"></span>  Join Video Chat
+			</button>
+		</div>
+
+		<div id="publisher"></div>
+		<div id="subscribers"></div>
+
+
 	</div>
 	
 
@@ -389,7 +411,6 @@
     <!-- JQuery Latest , Socket.io, and custom js -->
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
-	
 	<script src="/javascript.js"></script>
 
 </body>

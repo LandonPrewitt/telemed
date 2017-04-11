@@ -5,13 +5,24 @@ var express = require("express"),
 	io = require("socket.io").listen(server),
 	mongoose = require('mongoose'),
 	amqp = require('amqplib/callback_api'),
+	OpenTok = require('opentok'),
 	users_server = {};
 
-//var holla = require('holla');
+var test_sessionId = '';
+var test_token = '';
+
+// tokbox api key: 45817922
+// tokbox secret: 494ec00d641ec657ec917749dd6f2d2febadb29c
+// tokbox session: 2_MX40NTgxNzkyMn5-MTQ5MTg2NzQyOTYwMX5qVWIwUFBNdTNvYzFhT1RNQjVSRUljbml-fg
+// tokbox token: T1==cGFydG5lcl9pZD00NTgxNzkyMiZzaWc9NDEwOTVjZGNjZGY4M2ZlYWYyMGQ0NjA3YzUzNDg3ODI5MTE4M2IzMDpzZXNzaW9uX2lkPTJfTVg0ME5UZ3hOemt5TW41LU1UUTVNVGcyTnpReU9UWXdNWDVxVldJd1VGQk5kVE52WXpGaFQxUk5RalZTUlVsamJtbC1mZyZjcmVhdGVfdGltZT0xNDkxODY3NDc0Jm5vbmNlPTAuNjg0MzE4MzcyNjA3NTk3OSZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDkxODcxMDc0
 
 server.listen(3000);
 
 //var rtc = holla.createServer(server);
+
+// Opentok code =================================================
+
+var opentok = new OpenTok('45817922', '494ec00d641ec657ec917749dd6f2d2febadb29c');
 
 // Mongo DB Code ================================================
 
@@ -39,8 +50,23 @@ var chatSchema = mongoose.Schema({
 	created: {type: Date, default: Date.now}
 });
 
+var historySchema = mongoose.Schema({
+	nick:String,
+	weight:String,
+	sysBP:String,
+	diaBP:String,
+	pulse:String,
+	bo:String,
+	pi:String,
+	hr:String,
+	temp:String,
+	ecg: {type: String},
+	created: {type: Date, default: Date.now}
+});
+
 var Chat = mongoose.model('Message', chatSchema); 
 var User = mongoose.model('User', userSchema);
+var History = mongoose.model('History', historySchema);
 
 // App Page Request Handlers ====================================
 
@@ -245,6 +271,28 @@ io.sockets.on('connection', function(socket){
 	socket.on('collect', function(data, callback) {
 
 		recordData(data);
+	});
+
+	socket.on('start video', function(callback) {
+
+		// Create an opentok session
+		opentok.createSession(function(err, session) {
+		  if (err) return console.log(err);
+
+		  token = session.generateToken();
+		  test_sessionId = session.sessionId;
+		  test_token = token;
+		  callback({session: session.sessionId, token: token});
+		  // save the sessionId
+		  //db.save('session', session.sessionId, done);
+		});
+
+	});
+
+	socket.on('getRoomInfo', function(callback) {
+
+		callback({sessionId: test_sessionId, token: test_token});
+
 	});
 
 
