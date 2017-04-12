@@ -139,28 +139,33 @@ jQuery(function($){
 
 	$('#collect_sc').click(function(e){
 		e.preventDefault();
+		$('#sc_result').html("Measuring...");
 		socket.emit('collect', 'sc');
 	});
 
 	$('#collect_temp').click(function(e){
 		e.preventDefault();
+		$('#temp_result').html("Measuring...");
 		socket.emit('collect', 'temp');
 	});
 
 	// Oximeter
 	$('#collect_oxi').click(function(e){
 		e.preventDefault();
+		$('#oxi_result').html("Measuring...");
 		socket.emit('collect', 'oxi');
 	});
 
 	// For bp
 	$('#collect_bp').click(function(e){
 		e.preventDefault();
+		$('#bp_result').html("Measuring...");
 		socket.emit('collect', 'bp');
 	});
 
 	$('#collect_ecg').click(function(e){
 		e.preventDefault();
+		$('#ecg_result').html("Measuring...");
 		socket.emit('collect', 'ecg');
 	});
 
@@ -193,15 +198,43 @@ jQuery(function($){
 		var html = '';
 
 		if(data.type == 'bp') {
-			html += "</br>" + "Systolic BP: " + data.val[0] + "</br>";
-			html += "     Diastolic BP: " + data.val[1] + "</br>";
-			html += "     Pulse: " + data.val[2];
-			$('#' + data.type + '_result').html(html);
+
+			// CHeck if error occured during measurements
+			if(data.val[0] == "e1") {
+				$('#bp_result').html("Sensor is offline!");
+			} else if(data.val[0] == "e2") {
+				$('#bp_result').html("Measurement did not complete correctly!");
+			} else if(data.val[0] == "e3" || data.val[0] == "e4") {
+				$('#bp_result').html("Invalid Command!");
+			} else {
+
+				// If no error occured, display the values
+				html += "</br>" + "Systolic BP: " + data.val[0] + "</br>";
+				html += "     Diastolic BP: " + data.val[1] + "</br>";
+				html += "     Pulse: " + data.val[2];
+				$('#' + data.type + '_result').html(html);
+			}
+
+			
 		} else if (data.type == 'oxi'){
-			html += "</br>" + "     Oxygen Saturation: " + data.val[0] + "</br>";
-			html += "     Heart Rate: " + data.val[1] + "</br>";
-			html += "     Perfusion Index: " + data.val[2];
-			$('#' + data.type + '_result').html(html);	
+
+			// Check if error occured during measurements
+			if(data.val[0] == "e1") {
+				$('#bp_result').html("Sensor is offline!");
+			} else if(data.val[0] == "e2") {
+				$('#bp_result').html("Measurement did not complete correctly!");
+			} else if(data.val[0] == "e3" || data.val[0] == "e4") {
+				$('#bp_result').html("Invalid Command!");
+			} else {
+
+				// If no error occured, display the values
+				html += "</br>" + "     Oxygen Saturation: " + data.val[0] + "</br>";
+				html += "     Heart Rate: " + data.val[1] + "</br>";
+				html += "     Perfusion Index: " + data.val[2];
+				$('#' + data.type + '_result').html(html);
+			}
+
+				
 		} else {
 			$('#' + data.type + '_result').html(data.val);
 		}
@@ -211,6 +244,7 @@ jQuery(function($){
 		
 	
 	});
+
 
 	// ======================= jQuery for Chat Menu Buttons ===================================
 

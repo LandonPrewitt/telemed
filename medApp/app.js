@@ -14,7 +14,7 @@ var AccessToken = require('twilio').AccessToken;
 var VideoGrant = AccessToken.VideoGrant;
 
 
-server.listen(4000);
+server.listen(3000);
 
 
 //--------------------------------------------
@@ -134,7 +134,7 @@ io.sockets.on('connection', function(socket){
 		amqp.connect('amqp://localhost', function(err, conn) {
 		  conn.createChannel(function(err, ch) {
 		   
-
+		  	ch.purgeQueue(vital);
 		  	// Code to signal the data to be send
 		    var data = "{\"action\": \"sm\",\"device\": \"" + vital + "\"}"
 		    ch.assertQueue('cmd', {durable: false});
