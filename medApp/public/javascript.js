@@ -124,6 +124,7 @@ jQuery(function($){
 		e.preventDefault();
 		$('#mainmenuWrap').hide();
 		$('#recordWrap').show();
+		get_token();
 	});
 
 	$('#logout_btn').click(function(e){
