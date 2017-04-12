@@ -314,7 +314,6 @@ io.sockets.on('connection', function(socket){
 		    // handle doc
 		   
 		    if(doc.id.toString() == data.id) {
-		    	console.log("BINGO");
 		    	doc.remove();
 		    }
 		  })
