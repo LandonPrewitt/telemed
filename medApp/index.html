@@ -18,8 +18,9 @@
 	<!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- Latest compiled JavaScript 
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
 	<style>
 
@@ -108,7 +109,7 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 				<form>
-				  <div class="container">
+				  <div class="container-login">
 					<div class="imgcontainer">
 						<img src="/images/Logo.PNG" alt="Telemed" class="telemed">
 					</div>
@@ -157,9 +158,8 @@
 				<div class="container">
 
 
-					<label><b>Username:</b></label>
-					<div class="input-group">
-					 	<span class="input-group-addon" id="sizing-addon3">@</span>
+					<div class="row">
+						<label><b>Username:</b></label>
 					 	<input id="nickname2" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3">
 					</div>
 					
@@ -207,7 +207,7 @@
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
 			<h1> Home 
-				<button id="logout_btn" type="button" class="btn btn-default" style="width: 33.3%;">
+				<button id="logout_btn" type="button" class="btn btn-default" style="width: 20%; float: right; margin-right: 50px;">
 					<span class="glyphicon glyphicon-log-out"></span>  Logout
 				</button>
 			</h1>
@@ -237,7 +237,7 @@
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
 			<h1> FAQ 
-				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 10%; float: left; margin-right: 25px;">
 					<span class="glyphicon glyphicon-arrow-left"></span>  Back
 				</button>
 			</h1>
@@ -251,10 +251,27 @@
 				<div class="panel panel-default">
 				  <div class="panel-heading">
 					<h4 class="panel-title">
-					  <a data-toggle="collapse" href="#collapse1">Question 1</a>
+					  <a data-toggle="collapse" data-parent="#accordian" href="#collapseOne" class="collapsed">Question 1</a>
 					</h4>
 				  </div>
-				  <div id="collapse1" class="panel-collapse collapse">
+				  <div id="collapseOne" class="panel-collapse collapse" style="height: 0px;">
+					<div class="panel-body">The Renaissance has a long and complex historiography, and, in line
+					with general scepticism of discrete periodizations, there has been much debate among historians
+					reacting to the 19th-century glorification of the "Renaissance" and individual culture heroes
+					as "Renaissance men", questioning the usefulness of Renaissance as a term and as a historical
+					delineation.[10] The art historian Erwin Panofsky observed of this resistance to the concept
+					of "Renaissance":</div>
+				  </div>
+				</div>
+			  </div>			 
+			  <div class="panel-group">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+					<h4 class="panel-title">
+					  <a data-toggle="collapse" href="#collapse2">Question 2</a>
+					</h4>
+				  </div>
+				  <div id="collapse2" class="panel-collapse collapse">
 					<div class="panel-body">The Renaissance has a long and complex historiography, and, in line
 					with general scepticism of discrete periodizations, there has been much debate among historians
 					reacting to the 19th-century glorification of the "Renaissance" and individual culture heroes
@@ -268,10 +285,10 @@
 				<div class="panel panel-default">
 				  <div class="panel-heading">
 					<h4 class="panel-title">
-					  <a data-toggle="collapse" href="#collapse1">Question 1</a>
+					  <a data-toggle="collapse" href="#collapse3">Question 3</a>
 					</h4>
 				  </div>
-				  <div id="collapse1" class="panel-collapse collapse">
+				  <div id="collapse3" class="panel-collapse collapse">
 					<div class="panel-body">The Renaissance has a long and complex historiography, and, in line
 					with general scepticism of discrete periodizations, there has been much debate among historians
 					reacting to the 19th-century glorification of the "Renaissance" and individual culture heroes
@@ -285,27 +302,10 @@
 				<div class="panel panel-default">
 				  <div class="panel-heading">
 					<h4 class="panel-title">
-					  <a data-toggle="collapse" href="#collapse1">Question 1</a>
+					  <a data-toggle="collapse" href="#collapse4">Question 4</a>
 					</h4>
 				  </div>
-				  <div id="collapse1" class="panel-collapse collapse">
-					<div class="panel-body">The Renaissance has a long and complex historiography, and, in line
-					with general scepticism of discrete periodizations, there has been much debate among historians
-					reacting to the 19th-century glorification of the "Renaissance" and individual culture heroes
-					as "Renaissance men", questioning the usefulness of Renaissance as a term and as a historical
-					delineation.[10] The art historian Erwin Panofsky observed of this resistance to the concept
-					of "Renaissance":</div>
-				  </div>
-				</div>
-			  </div>
-			  <div class="panel-group">
-				<div class="panel panel-default">
-				  <div class="panel-heading">
-					<h4 class="panel-title">
-					  <a data-toggle="collapse" href="#collapse1">Question 1</a>
-					</h4>
-				  </div>
-				  <div id="collapse1" class="panel-collapse collapse">
+				  <div id="collapse4" class="panel-collapse collapse">
 					<div class="panel-body">The Renaissance has a long and complex historiography, and, in line
 					with general scepticism of discrete periodizations, there has been much debate among historians
 					reacting to the 19th-century glorification of the "Renaissance" and individual culture heroes
@@ -333,7 +333,7 @@
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
 			<h1> Record Vitals 
-				<button id="recordBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 10%; float: left; margin-right: 25px;">
 					<span class="glyphicon glyphicon-arrow-left"></span>  Back
 				</button>
 			</h1>
@@ -348,23 +348,23 @@
 					<div class="container_1">
 						<div id="vitals-record">Blood Pressure:
 							<button id="collect_bp" type="submit" class="collect">Measure</button>
-							<h3 id="bp_result"> Your Blood Pressure (mmhg)</h3>
+							<div class="well" id="bp_result"> Your Blood Pressure (mmhg)</div>
 						</div>
 						<div id="vitals-record">Oximeter:
 							<button id="collect_oxi" type="submit" class="collect">Measure</button>
-							<h3 id="oxi_result"> Your Blood Oxygen Saturation</h3>
+							<div class="well" id="oxi_result"> Your Blood Oxygen Saturation</div>
 						</div>
 						<div id="vitals-record">Temperature:
 							<button id="collect_temp" type="submit" class="collect">Measure</button>
-							<h3 id="temp_result"> Your Temperature (f)</h3>
+							<div class="well" id="temp_result"> Your Temperature (f)</div>
 						</div>
 						<div id="vitals-record">Height:
 							<button id="collect_ht" type="submit" class="collect">Measure</button>
-							<h3 id="ht_result"> Your Height</h3>
+							<div class="well" id="ht_result"> Your Height</div>
 						</div>
 						<div id="vitals-record">Weight:
 							<button id="collect_sc" type="submit" class="collect">Measure</button>
-							<h3 id="sc_result"> Your Weight (lb's)</h3>
+							<div class="well" id="sc_result"> Your Weight (lb's)</div>
 						</div>
 						<div id="vitals-record">Throat/Ears:
 							<button type="submit" id="collect_endo">Enable Endoscope</button>
@@ -400,7 +400,7 @@
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
 			<h1> Record Vitals 
-				<button id="recordBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 10%; float: left; margin-right: 25px;">
 					<span class="glyphicon glyphicon-arrow-left"></span>  Back
 				</button>
 			</h1>
@@ -470,7 +470,7 @@
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
 			<h1> Medical History 
-				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 10%; float: left; margin-right: 25px;">
 					<span class="glyphicon glyphicon-arrow-left"></span>  Back
 				</button>
 			</h1>
@@ -495,7 +495,7 @@
 				<img src="/images/Logo.PNG" alt="Telemed" id="telemed">
 			</div>
 			<h1> Chat 
-				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 33.3%;">
+				<button id="chatBack_btn" type="button" class="btn btn-default back_btn" style="width: 10%; float: left; margin-right: 25px;">
 					<span class="glyphicon glyphicon-arrow-left"></span>  Back
 				</button>
 			</h1>
