@@ -7,6 +7,7 @@
     "holla": "^0.6.3",
     "moment": "^2.18.1",
     "opentok": "^2.5.0",
-    "socket.io": "1.7.3"
+    "socket.io": "1.7.3",
+    "twilio": "^2.11.1"
   }
 }

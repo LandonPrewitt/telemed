@@ -1,5 +1,5 @@
 jQuery(function($){
-	
+
 	// Declare variables
 	var socket = io.connect();
 	var $messageForm = $('#send-message');
@@ -278,6 +278,194 @@ jQuery(function($){
 	function displayMsg(data){
 		$chat.append('<span class=\"msg"><b>' + data.nick + ': </b>' + data.msg + "</span></br>");
 		$chat.scrollTop($chat.prop('scrollHeight'));
-	}
-
+  }
 });
+
+// ================================= ZACHS CODE FOR VIDEO INTEGRATION ========================================
+
+var activeRoom;
+var previewTracks;
+var identity;
+var roomName;
+var token;
+
+var endoRoom;
+
+function attachTracks(tracks, container) {
+  tracks.forEach(function(track) {
+    container.appendChild(track.attach());
+  });
+}
+
+function attachParticipantTracks(participant, container) {
+  var tracks = Array.from(participant.tracks.values());
+  attachTracks(tracks, container);
+}
+
+function detachTracks(tracks) {
+  tracks.forEach(function(track) {
+    track.detach().forEach(function(detachedElement) {
+      detachedElement.remove();
+    });
+  });
+}
+
+function detachParticipantTracks(participant) {
+  var tracks = Array.from(participant.tracks.values());
+  detachTracks(tracks);
+}
+
+// Check for WebRTC
+if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
+  alert('WebRTC is not available in your browser.');
+}
+
+function establish_call(){
+
+    //$.getJSON('/token', function(data) {
+
+       // token = data.token;
+
+        // TODO pull from database/server
+        identity = 'John Doe';
+
+        // TODO to be pulled from database of logged in client
+        // or simply 'webcam'
+        roomName = 'Patient ' + identity;
+
+        var connectOptions = { name: roomName, logLevel: 'debug' };
+        if (previewTracks) {
+            connectOptions.tracks = previewTracks;
+        }
+
+        const { connect, createLocalTracks } = Twilio.Video;
+
+        Twilio.Video.createLocalTracks().then(localTracks => {
+            Twilio.Video.connect(token, { name: roomName, tracks: localTracks }).then(roomJoined);
+        }); 
+    //});
+
+
+}
+
+function get_token(){
+	$.getJSON('/token', function(data) {
+        token = data.token;
+   	 });
+}
+
+// Successfully connected to video conference
+function roomJoined(room) {
+  activeRoom = room;
+
+  // Draw local video, if not already previewing
+  var previewContainer = document.getElementById('local_media');
+  if (!previewContainer.querySelector('video')) {
+    attachParticipantTracks(room.localParticipant, previewContainer);
+  }
+
+  room.participants.forEach(function(participant) {
+    var previewContainer = document.getElementById('remote_media');
+    attachParticipantTracks(participant, previewContainer);
+  });
+
+  // When a participant joins, draw their video on screen
+  room.on('participantConnected', function(participant) {
+  });
+
+  room.on('trackAdded', function(track, participant) {
+    var previewContainer = document.getElementById('remote_media');
+    attachTracks([track], previewContainer);
+  });
+
+  room.on('trackRemoved', function(track, participant) { detachTracks([track]); });
+ 
+  // When a participant disconnects, note in //log
+  room.on('participantDisconnected', function(participant) {
+    detachParticipantTracks(participant);
+  });
+
+  // When we are disconnected, stop capturing local video
+  // Also remove media for all remote participants
+  room.on('disconnected', function() {
+    detachParticipantTracks(room.localParticipant);
+    room.participants.forEach(detachParticipantTracks);
+    activeRoom = null;
+  });
+}
+
+function drawEndoscope(room) {
+  endoRoom = room;
+
+  // Draw local video, if not already previewing
+  var previewContainer = document.getElementById('endoscope_view');
+  if (!previewContainer.querySelector('video')) {
+    attachParticipantTracks(room.localParticipant, previewContainer);
+  }
+
+  // When a participant joins, draw their video on screen
+  room.on('participantConnected', function(participant) {
+  });
+
+  room.on('trackRemoved', function(track, participant) { detachTracks([track]); });
+
+  // When a participant disconnects, note in //log
+  room.on('participantDisconnected', function(participant) {
+    detachParticipantTracks(participant);
+  });
+
+  // When we are disconnected, stop capturing local video
+  // Also remove media for all remote participants
+  room.on('disconnected', function() {
+    detachParticipantTracks(room.localParticipant);
+    room.participants.forEach(detachParticipantTracks);
+    endoRoom = null;
+  });
+}
+
+function leaveRoomIfJoined() {
+  while (activeRoom) {
+  	console.log('disconnecting from the twilio room')
+    activeRoom.disconnect();
+    document.getElementById('enable-chat').innerHTML = 'Connect to a Doctor';
+  }
+  activeRoom = null;
+  
+  if(endoRoom){
+  	endoRoom.disconnect();
+  	document.getElementById('endoscope-enable').innerHTML = 'Enable Endoscope';
+  }
+  endoRoom = null;
+}
+
+document.getElementById('endoscope-enable').onclick = function(){
+
+  if(!endoRoom){
+    var endoscopeView = document.getElementById('endoscope_view');
+    
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+      var videoInput = devices.find(device => device.label == "USB 2.0 PC Cam (090c:037c)");
+      return Twilio.Video.createLocalTracks({ audio: false, video: { deviceId: videoInput.deviceId } });
+    }).then(localTracks => {
+    return Twilio.Video.connect(token, { name: 'Endoscope', tracks: localTracks }).then(drawEndoscope);
+  });
+    document.getElementById('endoscope-enable').innerHTML = 'Disable Endoscope';
+  } else {
+    endoRoom.disconnect();
+    endoRoom = null;
+    document.getElementById('endoscope-enable').innerHTML = 'Enable Endoscope';
+  }
+}
+
+document.getElementById('enable-chat').onclick = function(){
+	if(!activeRoom){
+		establish_call();
+		// TODO communicate to Doctor portal that 'username' is waiting to chat
+		document.getElementById('enable-chat').innerHTML = 'Disconnect';
+  } else {
+		//Leaving chat with doctor
+		activeRoom.disconnect();
+		activeRoom = null;
+		document.getElementById('enable-chat').innerHTML = 'Connect to a Doctor';
+	}
+}

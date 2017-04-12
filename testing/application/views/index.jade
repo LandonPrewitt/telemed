@@ -1,23 +1,45 @@
+// LOGIN UI
 html
   head
     title=title
     link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/stylesheets/basic_layout_login.css', rel='stylesheet')
   body
-    div.container
-      div.jumbotron
-        h1 Hello!
- 
-        if user
-          p Welcome, #{user.fullName}
-          p
-            a.small(href="profile") Edit my profile
-          form(action='/logout', method='POST')
-            button.btn.btn-default(type="submit") Logout
-        else
-          p Welcome to my app, ready to get started?
-          p
-            a.btn.btn-primary(href="/login") Login now
-          p
-            span.small Don't have an account?
-            span &nbsp;
-            a.small(href="/register") Register now
+    #nickWrap.container.container-table
+      .row
+        .col-lg-3.col-md-3.col-sm-6.col-xs-12
+          form
+            .container
+              .imgcontainer
+                img.telemed(src="/images/Logo.PNG", alt="Telemed")
+              | 					
+              | 					
+              p#errorMsg.error
+              | 					
+              label
+                b Username
+              | 					
+              input#nickname(type="text", placeholder="Enter Username", name="uname", required="")
+              | 					
+              label
+                b Password
+              | 					
+              input#password(type="password", placeholder="Enter Password", name="psw", required="")
+              | 					
+              button#login_btn(style="margin: 5px; width:100%;", type="button")
+                span.glyphicon.glyphicon-log-in
+                |    
+                strong Login
+              | 					
+              button#register_btn( href="/register", style="margin: 5px; width:100%;", type="button",)
+                span.glyphicon.glyphicon-list-alt
+                |     
+                strong Register
+              | 					
+            | 				  
+            .container(style="background-color:#f1f1f1") 					
+              span.psw
+                | Forgot 
+                a(href="#") Password?
+  
+
