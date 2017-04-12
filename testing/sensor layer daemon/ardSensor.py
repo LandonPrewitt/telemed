@@ -17,7 +17,12 @@ class ArdSensor:
         return buff[1:-2] 
 
     def getMeasureArr(self,n):
-        arr = [self.getMeasure() for i in range(n)]
+        #self.ser.reset_input_buffer()
+        arr = []
+        while len(arr) < n:
+            buff = self.ser.readline()
+            if buff[0] == self.sensorid:
+                arr.append(buff[1:-2]) 
         return arr
         
     
