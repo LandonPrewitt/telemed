@@ -46,12 +46,8 @@ var chatSchema = mongoose.Schema({
 var histSchema = mongoose.Schema({
 	nick: {type:String, default: 'n/a'},
 	weight: {type:String, default: 'n/a'},
-	sysBP: {type:String, default: 'n/a'},
-	diaBP: {type:String, default: 'n/a'},
-	pulse: {type:String, default: 'n/a'},
+	bp: {type: [String], default: 'n/a'},
 	bo: {type:String, default: 'n/a'},
-	pi: {type:String, default: 'n/a'},
-	hr: {type:String, default: 'n/a'},
 	temp: {type:String, default: 'n/a'},
 	ecg: {type: [String], default: 'n/a'},
 	created: {type: String, default: Date.now().toString()}
@@ -116,9 +112,14 @@ io.sockets.on('connection', function(socket){
 		    ch.assertQueue(vital, {durable: false});
 		    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", vital);
 			ch.consume(vital, function(msg) {
-				socket.emit('push vital', {val: msg.content.toString(), type: vital});
+				//socket.emit('push vital', {val: msg.content.toString(), type: vital});
+				socket.emit('push vital', {val: JSON.parse(msg.content.toString()), type: vital});
 				//callback(msg.content.toString());
 				console.log(" [x] Received %s", msg.content.toString());
+				
+				// Conditional
+
+
 				conn.close();
 			}, {noAck: true});
 
@@ -292,12 +293,8 @@ io.sockets.on('connection', function(socket){
 		var newEntry = new Hist({
 			nick: data.nick,
 			weight: data.sc,
-			sysBP: data.sys,
-			diaBP: data.diabp,
-			pulse: data.pulse,
+			bp: data.bp,
 			bo: data.oxi,
-			pi: data.pi,
-			hr: data.hr,
 			temp: data.temp,
 			ecg: data.ecg,
 			created: moment().format('MMMM Do YYYY, h:mm:ss a')
@@ -323,12 +320,8 @@ io.sockets.on('connection', function(socket){
 				var entry = {};
 				entry['weight'] = '';
 				entry['weight'] = doc.weight;
-				entry['sysBP'] = doc.sysBP;
-				entry['diaBP'] = doc.diabp;
-				entry['pulse'] = doc.pulse;
+				entry['bp'] = doc.bp;
 				entry['bo'] = doc.bo;
-				entry['pi'] = doc.pi;
-				entry['hr'] = doc.hr;
 				entry['temp'] = doc.temp;
 				entry['ecg'] = doc.ecg;
 				entry['date'] = doc.created;
