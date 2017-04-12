@@ -80,7 +80,7 @@ def singleMeasureProd(channel, sensor):
         print "Measuring..."
         (sysbp, diabp, pulse) = bpSensor.startMeasure()
         channel.basic_publish(exchange='', routing_key="bp", body=json.JSONEncoder().encode([sysbp, diabp, pulse]))
-        print "Received data from blood pressure sensor: sysbp: %i diabp: %i pulse: %i and sucessfully sent to queue" % (sysbp, diabp, pulse)
+        print "Received data from blood pressure sensor: sysbp: %s diabp: %s pulse: %s and sucessfully sent to queue" % (str(sysbp), str(diabp), str(pulse))
 
     elif sensor == "sc":
         print "Rcvd command and starting weight measurement procedure.."
@@ -106,7 +106,7 @@ def contProducer(channel, connected_sensors, tempSensor, ecgSensor, oxiSensor):
     while(True):
         if connected_sensors['temp'] and connected_sensors['ecg']:
             channel.basic_publish(exchange='', routing_key="temp", body=tempSensor.getMeasure())
-            channel.basic_publish(exchange='', routing_key="ecg", body=json.JSONEncoder().encode(ecgSensor.getMeasureArr(10)))
+            channel.basic_publish(exchange='', routing_key="ecg", body=json.JSONEncoder().encode(ecgSensor.getMeasureArr(30)))
         if connected_sensors['oxi']:
             channel.basic_publish(exchange='', routing_key="oxi", body=json.JSONEncoder().encode([oxiSensor.getMeasureOxi(), oxiSensor.getMeasureHR(), oxiSensor.getMeasurePI()]))
     
