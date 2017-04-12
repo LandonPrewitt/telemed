@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang= "en">
+<head>
+	<title> Vitals </title>
+	<link rel= "stylesheet" type= "text/css" href= "basic_layout_login.css" />
+	<script type= "text/javascript" src= "history.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<!--<script type="text/javascript">
+	  window.onload = function () {
+	  
+		var width = window.innerWidth;
+
+		document.getElementById("chartContainer").style.width = width/1.8 + "px";
+
+		var chart = new CanvasJS.Chart("chartContainer",
+		{
+		  zoomEnabled: true,
+		  title:{
+			text: "Pulse"
+		  },
+		  axisY:{
+			includeZero: false
+		  },
+		  data: data,  // random generator below
+
+	   });
+
+		chart.render();
+	  }
+
+	   var limit = 1000;    //increase number of dataPoints by increasing this
+
+		var y = 0;
+		var data = []; var dataSeries = { type: "line" };
+		var dataPoints = [];
+		for (var i = 0; i < limit; i += 1) {
+			y += (Math.random() * 10 - 5);
+			 dataPoints.push({
+			  x: i - limit / 2,
+			  y: y
+			   });
+			}
+		 dataSeries.dataPoints = dataPoints;
+		 data.push(dataSeries);
+
+	</script>-->
+	<script src="canvasjs.min.js"></script>
+</head>
+
+<body onload= "set_graph()">
+	
+	<div id="mySidenav" class="sidenav">
+	  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	  <a onclick= "pulse()" href="#">Pulse</a>
+	  <a onclick= "oximeter()" href="#">Oximeter</a>
+	  <a onclick= "blood_pressure()" href="#">Blood Pressure</a>
+	  <a onclick= "temperature()" href="#">Temperature</a>
+	  <a onclick= "height()" href="#">Height</a>
+	  <a onclick= "weight()" href="#">Weight</a>
+	  <a onclick= "throat_ears()" href="#">Throat/Ears</a>
+	</div>
+
+	<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+	<div id="main">
+		<header>
+			<div id="backsplash">
+				<img src="logo.png" alt="Home" id="telemed">
+			</div>
+			<a href="main_menu.html">
+				<img src="house.png" alt="Telemed" id="home_icon">
+			</a>
+			<h1> History and Stats </h1>
+		</header>
+		<br/>
+		<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Vitals Menu</span> <br/>
+		
+		<div class="history-page">
+		<div class="left-vitals">
+			<h2 id="vitals-title"> Pulse </h2><br/>
+			<div class="container_1-history">
+				<div id="vitals-record">Pulse:</div>
+			</div>
+			
+			<div class="container_2-history">
+				<input id="current-history" type="text" name="fname" required>
+				<button type="submit" id="collect">Measure</button>
+			</div>
+		</div>
+		<div class= "right-vitals">
+			<div id="chartContainer" style="height: 400px; width: 500px; "></div>
+		</div>
+		</div>
+	</div>
+	
+</body>
+
+</html>

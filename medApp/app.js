@@ -5,13 +5,17 @@ var express = require("express"),
 	io = require("socket.io").listen(server),
 	mongoose = require('mongoose'),
 	amqp = require('amqplib/callback_api'),
+	moment = require('moment'),
 	users_server = {};
+
 
 require('dotenv').load();
 var AccessToken = require('twilio').AccessToken;
 var VideoGrant = AccessToken.VideoGrant;
 
-server.listen(3000);
+
+server.listen(4000);
+
 
 //--------------------------------------------
 
@@ -45,6 +49,10 @@ app.get('/token', function(req, res) {
 
 //--------------------------------------------
 
+console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+//var rtc = holla.createServer(server);
+
+
 // Mongo DB Code ================================================
 
 mongoose.connect('mongodb://localhost/', function(err){
@@ -62,7 +70,7 @@ var userSchema = mongoose.Schema({
 	email:String,
 	phone:String,
 	isDoctor:Boolean,
-	created: {type: Date, default: Date.now}
+	created: {type: Date, default: Date.now()}
 });
 
 var chatSchema = mongoose.Schema({
@@ -71,8 +79,20 @@ var chatSchema = mongoose.Schema({
 	created: {type: Date, default: Date.now}
 });
 
+var histSchema = mongoose.Schema({
+	nick: {type:String, default: 'n/a'},
+	weight: {type:String, default: 'n/a'},
+	bp: {type: [String], default: 'n/a'},
+	bo: {type:String, default: 'n/a'},
+	temp: {type:String, default: 'n/a'},
+	ecg: {type: [String], default: 'n/a'},
+	created: {type: String, default: Date.now().toString()}
+});
+
+
 var Chat = mongoose.model('Message', chatSchema); 
 var User = mongoose.model('User', userSchema);
+var Hist = mongoose.model('Hist', histSchema);
 
 // App Page Request Handlers ====================================
 
@@ -116,7 +136,7 @@ io.sockets.on('connection', function(socket){
 		   
 
 		  	// Code to signal the data to be send
-		    var data = "{\"action\": \"sm\",\"device\": \"sc\"}"
+		    var data = "{\"action\": \"sm\",\"device\": \"" + vital + "\"}"
 		    ch.assertQueue('cmd', {durable: false});
 		    // Note: on Node 6 Buffer.from(msg) should be used
 		    ch.sendToQueue('cmd', new Buffer(data));
@@ -128,9 +148,14 @@ io.sockets.on('connection', function(socket){
 		    ch.assertQueue(vital, {durable: false});
 		    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", vital);
 			ch.consume(vital, function(msg) {
-				socket.emit('push vital', {val: msg.content.toString(), type: vital});
+				//socket.emit('push vital', {val: msg.content.toString(), type: vital});
+				socket.emit('push vital', {val: JSON.parse(msg.content.toString()), type: vital});
 				//callback(msg.content.toString());
 				console.log(" [x] Received %s", msg.content.toString());
+				
+				// Conditional
+
+
 				conn.close();
 			}, {noAck: true});
 
@@ -275,8 +300,74 @@ io.sockets.on('connection', function(socket){
 	});
 
 	socket.on('collect', function(data, callback) {
-
 		recordData(data);
+	});
+
+	// Handle when vitals are supposed to save: When back btn pressed on record page
+	socket.on('save vitals', function(data, callback) {
+
+		var i = 0;
+
+		// Search to see if user has already saved 
+		var search = Hist.find({nick: data.nick}).cursor()
+		  search.on('data', function(doc){
+		    // handle doc
+		   
+		    if(doc.id.toString() == data.id) {
+		    	console.log("BINGO");
+		    	doc.remove();
+		    }
+		  })
+		  .on('error', function(err){
+		    // handle error
+		  })
+		  .on('end', function(){
+		    // final callback
+		});
+
+
+		var newEntry = new Hist({
+			nick: data.nick,
+			weight: data.sc,
+			bp: data.bp,
+			bo: data.oxi,
+			temp: data.temp,
+			ecg: data.ecg,
+			created: moment().format('MMMM Do YYYY, h:mm:ss a')
+		});
+
+		newEntry.save(function(err, room){
+			if(err) throw err;
+			callback(room.id);
+		});
+	});
+
+	// Handle when history page is opened and needs to be loaded. 
+	socket.on('load history', function(data, callback) {
+
+		// Create a query for attaining all usernames in mongo db
+		var entries = [];
+		var cursor = Hist.find({}).cursor();
+		var dup = false;
+		
+		cursor.on('data', function(doc){
+			if (data == doc.nick) {
+				dup = true;
+				var entry = {};
+				entry['weight'] = '';
+				entry['weight'] = doc.weight;
+				entry['bp'] = doc.bp;
+				entry['bo'] = doc.bo;
+				entry['temp'] = doc.temp;
+				entry['ecg'] = doc.ecg;
+				entry['date'] = doc.created;
+				entries.push(entry);
+			}
+		});
+
+		cursor.on('close', function(){
+			callback(entries);
+		})	
 	});
 
 
