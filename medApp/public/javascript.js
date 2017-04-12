@@ -106,12 +106,8 @@ jQuery(function($){
 			//	for(var j=0; j<data[i].length; j++) {
 					$('#history').append('Time-stamp: ' + data[i]['date'] + '</br>');
 					$('#history').append('Weight: ' + data[i]['weight'] + '</br>');
-					$('#history').append('Sys BP: ' + data[i]['sysBP'] + '</br>');
-					$('#history').append('Dia BP: ' + data[i]['diaBP'] + '</br>');
-					$('#history').append('Pulse: ' + data[i]['pulse'] + '</br>');
+					$('#history').append('Blood Pressure: ' + data[i]['bp'] + '</br>');
 					$('#history').append('Blood Oxygen: ' + data[i]['bo'] + '</br>');
-					$('#history').append('PI: ' + data[i]['pi'] + '</br>');
-					$('#history').append('Heart Rate: ' + data[i]['hr'] + '</br>');
 					$('#history').append('Temperature: ' + data[i]['temp'] + '</br>');
 					$('#history').append('ECG: ' + data[i]['ecg'] + '</br>');
 
@@ -149,7 +145,6 @@ jQuery(function($){
 	$('#collect_temp').click(function(e){
 		e.preventDefault();
 		socket.emit('collect', 'temp');
-		$('#temp_result').html("93");
 	});
 
 	// Oximeter
@@ -158,34 +153,10 @@ jQuery(function($){
 		socket.emit('collect', 'oxi');
 	});
 
-	// Oximeter
-	$('#collect_hr').click(function(e){
-		e.preventDefault();
-		socket.emit('collect', 'hr');
-	});
-
-	// Oximeter
-	$('#collect_pi').click(function(e){
-		e.preventDefault();
-		socket.emit('collect', 'pi');
-	});
-
 	// For bp
-	$('#collect_sys').click(function(e){
+	$('#collect_bp').click(function(e){
 		e.preventDefault();
-		socket.emit('collect', 'sys');
-	});
-
-	// For bp
-	$('#collect_diabp').click(function(e){
-		e.preventDefault();
-		socket.emit('collect', 'diabp');
-	});
-
-	// For bp
-	$('#collect_pulse').click(function(e){
-		e.preventDefault();
-		socket.emit('collect', 'pulse');
+		socket.emit('collect', 'bp');
 	});
 
 	$('#collect_ecg').click(function(e){
@@ -199,11 +170,7 @@ jQuery(function($){
 		var sc = $('#sc_result').html();
 		var temp = $('#temp_result').html();
 		var oxi = $('#oxi_result').html();
-		var hr = $('#hr_result').html();
-		var pi = $('#pi_result').html();
-		var sys = $('#sys_result').html();
-		var diabp = $('#diabp_result').html();
-		var pulse = $('#pulse_result').html();
+		var bp = $('#bp_result').html();
 		var ecg = $('#ecg_result').html();
 
 		socket.emit('save vitals', {
@@ -211,11 +178,7 @@ jQuery(function($){
 			sc: sc,
 			temp: temp,
 			oxi: oxi,
-			hr: hr,
-			pi: pi,
-			sys: sys,
-			diabp: diabp,
-			pulse: pulse,
+			bp: bp,
 			ecg: ecg,
 			id: $vitalsID
 		}, function(data) {
@@ -226,7 +189,27 @@ jQuery(function($){
 	});
 
 	socket.on('push vital', function(data){
-		$('#' + data.type + '_result').html(data.val);
+
+		var html = '';
+
+		if(data.type == 'bp') {
+			html += "</br>" + "Systolic BP: " + data.val[0] + "</br>";
+			html += "     Diastolic BP: " + data.val[1] + "</br>";
+			html += "     Pulse: " + data.val[2];
+			$('#' + data.type + '_result').html(html);
+		} else if (data.type == 'oxi'){
+			html += "</br>" + "     Oxygen Saturation: " + data.val[0] + "</br>";
+			html += "     Heart Rate: " + data.val[1] + "</br>";
+			html += "     Perfusion Index: " + data.val[2];
+			$('#' + data.type + '_result').html(html);	
+		} else {
+			$('#' + data.type + '_result').html(data.val);
+		}
+		
+		
+		
+		
+	
 	});
 
 	// ======================= jQuery for Chat Menu Buttons ===================================
