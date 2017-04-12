@@ -163,6 +163,7 @@ header
 
 .vitals-page{
   padding: 25px 0px;
+  min-width: 1400px;
 }
 
 .left-vitals
@@ -174,7 +175,7 @@ header
 .right-vitals
 {
   /*padding-top: 20px;*/
-  float: right;
+  float: left;
 }
 
 .container_1
@@ -223,15 +224,16 @@ header
   background-color: red; /*#4CAF50*/
     color: white;
     padding: 5px 10px;
-    margin: 8px 0;
+    margin: 20px 0px;
     border: none;
     cursor: pointer;
     width: 75px;
   height: 25px;
   border-radius: 5px;
+  float: right;
 }
 
-#collect_endo
+#endoscope-enable
 {
   background-color: red; /*#4CAF50*/
     color: white;
@@ -259,11 +261,12 @@ header
 
 
 #client_cameras {
-  float: right;
+  float: left;
+  width: 600px;
 }
 
 #endoscope_view{
-  width: 100%;
+  /*width: 100%;
  /* height: 300px;
   max-height: 500px;*/
   float: left;
@@ -335,15 +338,48 @@ header
 }
 
 
+#enable-chat{
+  background-color: red; /*#4CAF50*/
+  color: white;
+  padding: 5px 10px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 150px;
+  height: 50px;
+  border-radius: 5px;
+  margin: 20px 0px;
+  font-weight: bold;
+  float: right;
+}
 
-#local_media{
-  margin-left: 100%;
-  /*height: 300px;
-  max-height: 500px;*/
+#remote_media
+{
+  width: 500px;
+  margin: 10px 0px;
+  padding: 0px;
+}
+
+#local_media
+{
+  margin: 0px 0px;
+  padding: 0px;
   float: left;
 }
 
-#enable-chat{
+#remote_media video
+{
+  width: 600px;
+}
 
+#local_media video
+{
+  width: 300px;
+  margin-right: 0px;
+}
+
+#endoscope_view video
+{
+  width: 300px;
 }
 
