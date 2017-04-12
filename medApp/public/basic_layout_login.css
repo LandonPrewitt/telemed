@@ -8,7 +8,7 @@ form {
 
 /* Full-width inputs */
 input[type=text], input[type=password] {
-    width: 75%;
+    width: 80%;
     padding: 12px 20px;
     margin: 8px 100px;
     display: inline-block;
@@ -51,8 +51,15 @@ input[type=button]
 }
 
  /*Add padding to containers */
+ .container-login {
+    padding: 16px;
+    width: 1000px;
+} 
+
 .container {
     padding: 16px;
+    max-width: 1000px;
+    min-width: 1000px;
 } 
 
 /* The "Forgot password" text */
@@ -83,7 +90,7 @@ span.psw {
 {
 	float: right;
 	display: block;
-	margin: -10px 0 0 0;
+	margin: -20px 0 0 0;
 }
 
 #telemed
@@ -124,46 +131,44 @@ header
 
 #chat_btn
 {
-	position: absolute;
-	left: 25%;
-	width: 250px;
-	height: 250px;
+	float: left;
+	width: 400px;
+	height: 400px;
 }
 
 #faq_btn
 {
-	position: absolute;
-	right: 25%;
-	width: 250px;
-	height: 250px;
+	float: left;
+	width: 400px;
+	height: 400px;
+  margin-left: 125px;
 }
 
 #record_btn
 {
-	position: absolute;
-	left: 25%;
-	width: 250px;
-	height: 250px;
-	top: 375px;
+	float: left;
+	width: 400px;
+	height: 400px;
+  margin-top: 115px;
 }
 
 #history_btn
 {
-	position: absolute;
-	right: 25%;
-	width: 250px;
-	height: 250px;
-	top: 375px;
+	float: left;
+  width: 400px;
+  height: 400px;
+  margin-top: 115px;
+  margin-left: 125px;
 }
 
 .vitals-page{
-  padding: 25px 12%;
+  padding: 25px 0px;
 }
 
 .left-vitals
 {
   float: left;
-  width: 800px;
+  width: 400px;
 }
 
 .right-vitals
@@ -181,7 +186,7 @@ header
 .container_2
 {
 	float: left;
-  width: 300px;
+  width: 0px;
 }
 
 #vitals-record
