@@ -1,0 +1,63 @@
+// REGISTRATION UI
+html
+  head
+    title=title
+    link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/stylesheets/basic_layout_login.css', rel='stylesheet')
+  body
+    #registerWrap.container.container-table
+      header
+        #backsplash
+          img#telemed(src="/images/Logo.PNG", alt="Telemed")
+        |             
+        h1  New User 
+      |         
+      |         
+      .row
+        .col-lg-3.col-md-3.col-sm-6.col-xs-12
+          .container
+            label
+              b Username:
+            |                     
+            .input-group
+              //span#sizing-addon3.input-group-addon @
+              //|                          
+              input#nickname2.form-control(type="text", placeholder="Username", aria-describedby="sizing-addon3")
+            |                     
+            |                     
+            .row
+              label
+                b Full Name:
+              |                         
+              input#name(type="text", placeholder="Enter Full Name", name="lname", required="")
+            |                     
+            .row
+              label
+                b Email:
+              |                         
+              input#email(type="text", placeholder="Enter Email", name="email", required="")
+            |                     
+            .row
+              label
+                b Phone:
+              |                         
+              input#phone(type="text", placeholder="Enter Phone Number", name="phone", required="")
+            |                     
+            .row
+              label
+                b Password:
+              |                         
+              input#password2(type="password", placeholder="Enter Password", name="psw", required="")
+            |                     
+            .row
+              label
+                b Retype Password:
+              |                         
+              input(type="password", placeholder="Enter Password", name="psw", required="")
+          |                 
+          input#doctorBox(type="checkbox")
+          |  Doctor
+          |                 
+          button#getStarted_btn(type="button")  Get Started
+
+  script(src='javascripts/register.js')

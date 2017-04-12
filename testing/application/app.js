@@ -11,6 +11,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var stylus = require('stylus');
 var nib = require('nib');
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -26,6 +27,8 @@ function compile(str, path) {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+//--------------------------------------------
 
 // Generate access token for chat application
 app.get('/token', function(req, res) {
@@ -54,6 +57,37 @@ app.get('/token', function(req, res) {
 		token: token.toJwt()
 	});
 });
+
+//--------------------------------------------
+
+mongoose.connect('mongodb://localhost/', function(err){
+	if(err){
+		console.log(err);
+	} else {
+		console.log('Connected to mongodb!');
+	}
+});
+
+var userSchema = mongoose.Schema({
+	nick:String,
+	pw:String,
+	name:String,
+	email:String,
+	phone:String,
+	isDoctor:Boolean,
+	created: {type: Date, default: Date.now}
+});
+
+var chatSchema = mongoose.Schema({
+	nick:String,
+	msg: String,
+	created: {type: Date, default: Date.now}
+});
+
+var Chat = mongoose.model('Message', chatSchema); 
+var User = mongoose.model('User', userSchema);
+
+//--------------------------------------------
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -88,3 +122,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+//module.exports = mongoose;
